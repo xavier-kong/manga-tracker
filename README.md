@@ -5,8 +5,6 @@ Using a spreadsheet was convenient at first but the slow start times paired with
 
 ## TO-DO
 
-/**
-
 * backend: login, change(put), delete, input validation
 
 * notifications for front end
@@ -30,5 +28,3 @@ Using a spreadsheet was convenient at first but the slow start times paired with
 * write test code in jest and cypress
 
 * deployment pipeline with github actions deploy to heroku
-
-*/
