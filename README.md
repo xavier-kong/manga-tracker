@@ -5,6 +5,8 @@ Using a spreadsheet was convenient at first but the slow start times paired with
 
 ## TO-DO
 
+* identify MVP then extra features
+
 * backend: login, change(put), delete, input validation
 
 * notifications for front end
