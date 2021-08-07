@@ -12,8 +12,12 @@ const MangaTable = () => {
     })
   }, [])
 
-  const onAdd = () => {
-    console.log('add')
+  const onAdd = (manga) => {
+    axios.post('http://localhost:3001/data', manga)
+      .then(res => {
+        const newManga = res.data
+        setData(data.concat(newManga))
+      })
   }
 
   return (

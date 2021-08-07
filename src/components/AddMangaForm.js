@@ -22,7 +22,12 @@ const AddMangaForm = ({ add }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    add()
+    add({
+      title: title.value,
+      link: link.value,
+      current: 1
+    })
+    setVisible(!visible)
   }
   
   return (

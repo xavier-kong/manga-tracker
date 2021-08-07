@@ -3,8 +3,9 @@ const cors = require('cors')
 const app = express()
 
 app.use(cors())
+app.use(express.json())
 
-const data = [
+let data = [
   {
     "title": "더 페이블 ",
     "lastRead": "Just now",
@@ -34,6 +35,12 @@ app.get('/', (req, res ) => {
 
 app.get('/data', (req, res ) => {
   res.send(data)
+})
+
+app.post('/data', (req, res) => {
+  const manga = { ...req.body, id: data.length+1}
+  data = data.concat(manga)
+  res.json(manga)
 })
 
 const PORT = 3001
