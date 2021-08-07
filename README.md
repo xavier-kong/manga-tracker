@@ -1,11 +1,22 @@
 # Manga Tracker
 
 A MERN (MongoDB, Express, Reactjs, Nodejs) stack project I created to track my manga reading.
-Using a spreadsheet was convenient at first but the slow start times paired with the repeitive tasks that could easily be automated or simplified (tracker read chapters, links for next chapters etc) motivated me to create my own. 
+I was using a spreadsheet as my tracker solution at first but a few problems became apparent:
+* Slow start time
+* Repetive tasks
+    * Updating chapters
+    * Updating link for next chapter
+* Tasks that could be automated
+    * Link for next chapter
+    * Opening up next 3 chapters at once
+* Hard to add to / modify future reading list
 
+To solve the above problems, I decided to create my own tracker. 
 ## TO-DO
 
-* identify MVP then extra features
+* identify MVP then extra features, move to-do to github actions kanban
+
+* when to add mongoDB?
 
 * backend: login, change(put), delete, input validation
 
