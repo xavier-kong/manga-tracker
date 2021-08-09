@@ -1,6 +1,6 @@
 # Manga Tracker
 
-A MERN (MongoDB, Express, Reactjs, Nodejs) stack project I created to track my manga reading.
+A  project I created to track my manga reading.
 I was using a spreadsheet as my tracker solution at first but a few problems became apparent:
 * Slow start time
 * Repetive tasks
