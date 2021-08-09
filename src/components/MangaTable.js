@@ -5,6 +5,8 @@ import axios from 'axios'
 
 const MangaTable = () => {
   const [ data, setData ] = useState([])
+  const [ filter, setFilter ] = useState('')
+
   useEffect(() => {
     axios.get('http://localhost:3001/data').then(res =>{
       const newData = res.data
@@ -20,6 +22,11 @@ const MangaTable = () => {
       })
   }
 
+  const handleFilterChange = (e) => {
+    e.preventDefault()
+    setFilter(e.target.value)
+  }
+
   return (
     <>
     <div>
@@ -33,12 +40,21 @@ const MangaTable = () => {
           <th>Next Button</th>
           <th>Link</th>
           <th>Open next 3</th>
+          <th>Status</th>
         </tr>
-        {data.map(manga =>
+        {data
+          .filter(manga => manga.status.includes(filter))
+          .map(manga =>
           <TableSingle manga={manga} key={manga.id} />
         )}
         </tbody>
       </table>
+      <select value={filter} onChange={handleFilterChange}>
+          <option value={''}>All</option>
+          <option value={'reading'}>Reading</option>
+          <option value={'finished'}>Finished</option>
+          <option value={'to start'}>To start</option>
+      </select>
     </div>
     <div>
       <br />

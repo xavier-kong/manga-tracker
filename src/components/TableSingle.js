@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import axios from 'axios'
 
 const style = {
   textAlign: "center" 
@@ -22,6 +23,20 @@ const TableSingle = (data) => {
     }
   }
 
+  const handleFilterChange = (e) => {
+    e.preventDefault()
+    if (window.alert(`Are you sure you want to mark ${manga.title} as ${e.target.value}`)) {
+      const newManga = { ...manga, status: e.target.value }
+    axios.put(`http://localhost:3001/data/${manga.id}`, newManga)
+      .then(res => {
+        setManga(res.data)
+      })
+      .catch(e => {
+        console.log(e)
+      })
+    }
+  }
+
   return (
       <tr style={style}>
         <td>{manga.title}</td>
@@ -31,6 +46,14 @@ const TableSingle = (data) => {
         <td><button onClick={buttonHandler}>next</button></td>
         <td><a href={String(manga.link)}>Go</a></td>
         <td><button>open</button></td>
+        <td>
+          <select onChange={handleFilterChange}>
+            {<option value={manga.status}>{manga.status}</option>}
+            {manga.status === 'reading' ? null : <option value={'reading'}>Reading</option>}
+            {manga.status === 'finished' ? null : <option value={'finished'}>Finished</option>}
+            {manga.status === 'to start' ? null : <option value={'to start'}>To start</option>}
+          </select>
+        </td>
       </tr>
   )
 }

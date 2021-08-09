@@ -11,21 +11,24 @@ let data = [
     "lastRead": "Just now",
     "current": 34,
     "link": "http://www.manga.com/1/",
-    "id": 1
+    "id": 1,
+    "status": "reading"
   },
   {
     "title": "극주부도",
     "lastRead": "Just now",
     "current": 15,
     "link": "http://www.manga.com/2/",
-    "id": 2
+    "id": 2,
+    "status": "finished"
   },
   {
     "title": "더 파이팅",
     "lastRead": "Just now",
     "current": 5,
     "link": "http://www.manga.com/3/",
-    "id": 3
+    "id": 3,
+    "status": "to start"
   }
 ]
 
@@ -41,6 +44,12 @@ app.post('/data', (req, res) => {
   const manga = { ...req.body, id: data.length+1}
   data = data.concat(manga)
   res.json(manga)
+})
+
+app.put('/data/:id', (req, res) => {
+  const newManga = req.body
+  data = data.map(manga => manga.id === newManga.id ? newManga : manga)
+  res.json(newManga)
 })
 
 const PORT = 3001
