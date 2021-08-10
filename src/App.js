@@ -1,30 +1,35 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import MangaTable from './components/MangaTable'
 import Login from './components/Login'
-import { Switch, Route, Redirect } from 'react-router-dom' 
 
 const App = () => {
-  const [ user, setUser ] = useState(false)
+  const [ user, setUser ] = useState()
+
+  useEffect(() => {
+    const user = localStorage.getItem('user');
+    user ? setUser(true) : setUser(false)
+  }, []) //implement token based later
 
   const login = () => {
+    localStorage.setItem('user', 'Tom');
     setUser(true)
   }
+
+  const logout = () => {
+    localStorage.removeItem('user');
+    setUser(false)
+  }
+
   return (
-    <Switch>
-      <Route path="/">
-        {user ? 
-        <div>
-          <h1>Manga Tracker</h1>
-          <p>place holder for nav bar</p>
-          <MangaTable />
-        </div> 
-        : <Redirect to='/login' />}
-      </Route>
-      <Route path='/login'>
-          <Login onLogin={login} />
-      </Route>
-    </Switch>
-    
+  <>
+    {!user  ? <Login onLogin={login} /> :
+    <div>
+      <h1>Manga Tracker</h1>
+      <p>Logged in as 'user name' <button onClick={() => (logout())}>logout</button></p>
+      <MangaTable />
+    </div>
+    }
+  </>
   );
 }
 
