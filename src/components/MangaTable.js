@@ -37,9 +37,7 @@ const MangaTable = () => {
         <tr>
           <th><h3>Title</h3></th>
           <th><h3>Last Read</h3></th>
-          <th>Previous Button</th>
           <th><h3>Current</h3></th>
-          <th>Next Button</th>
           <th>Link</th>
           <th>Open next 3</th>
           <th>Status</th>

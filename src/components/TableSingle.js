@@ -14,10 +14,10 @@ const TableSingle = (data) => {
 
   const buttonHandler = (e) => {
     e.preventDefault()
-    if (e.target.outerText === 'previous' ) {
+    if (e.target.outerText === '<' ) {
       const newManga = { ...manga, current: manga.current-=1 }
       setManga(newManga)
-    } else if (e.target.outerText === 'next' ) {
+    } else if (e.target.outerText === '>' ) {
       const newManga = { ...manga, current: manga.current+=1 }
       setManga(newManga)
     }
@@ -41,9 +41,11 @@ const TableSingle = (data) => {
       <tr style={style}>
         <td>{manga.title}</td>
         <td>{manga.lastRead}</td>
-        <td><button onClick={buttonHandler}>previous</button></td>
-        <td>{manga.current}</td>
-        <td><button onClick={buttonHandler}>next</button></td>
+        <td>
+          <button onClick={buttonHandler}>{'<'}</button>
+          &nbsp;{manga.current}&nbsp;
+          <button onClick={buttonHandler}>{'>'}</button>
+        </td>
         <td><a href={String(manga.link)}>Go</a></td>
         <td><button>open</button></td>
         <td>
