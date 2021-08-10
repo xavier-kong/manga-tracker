@@ -16,10 +16,22 @@ const TableSingle = (data) => {
     e.preventDefault()
     if (e.target.outerText === '<' ) {
       const newManga = { ...manga, current: manga.current-=1 }
-      setManga(newManga)
+      axios.put(`http://localhost:3001/data/${manga.id}`, newManga)
+        .then(res => {
+          setManga(res.data)
+        })
+        .catch(e => {
+          console.log(e)
+        })
     } else if (e.target.outerText === '>' ) {
-      const newManga = { ...manga, current: manga.current+=1 }
-      setManga(newManga)
+      const newManga = { ...manga, current: manga.current+=1, lastRead: new Date() }
+      axios.put(`http://localhost:3001/data/${manga.id}`, newManga)
+        .then(res => {
+          setManga(res.data)
+        })
+        .catch(e => {
+          console.log(e)
+        })
     }
   }
 
