@@ -25,15 +25,15 @@ const TableSingle = (data) => {
 
   const handleFilterChange = (e) => {
     e.preventDefault()
-    if (window.alert(`Are you sure you want to mark ${manga.title} as ${e.target.value}`)) {
+    if (window.confirm(`Are you sure you want to mark ${manga.title} as ${e.target.value}`)) {
       const newManga = { ...manga, status: e.target.value }
-    axios.put(`http://localhost:3001/data/${manga.id}`, newManga)
-      .then(res => {
-        setManga(res.data)
-      })
-      .catch(e => {
-        console.log(e)
-      })
+      axios.put(`http://localhost:3001/data/${manga.id}`, newManga)
+        .then(res => {
+          setManga(res.data)
+        })
+        .catch(e => {
+          console.log(e)
+        })
     }
   }
 

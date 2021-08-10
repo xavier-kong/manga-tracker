@@ -25,7 +25,8 @@ const AddMangaForm = ({ add }) => {
     add({
       title: title.value,
       link: link.value,
-      current: 1
+      current: 1,
+      status: "to start"
     })
     setVisible(!visible)
   }

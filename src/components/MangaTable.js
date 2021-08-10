@@ -5,14 +5,14 @@ import axios from 'axios'
 
 const MangaTable = () => {
   const [ data, setData ] = useState([])
-  const [ filter, setFilter ] = useState('')
+  const [ filter, setFilter ] = useState('reading')
 
   useEffect(() => {
     axios.get('http://localhost:3001/data').then(res =>{
       const newData = res.data
       setData(newData)
     })
-  }, [])
+  }, [data])
 
   const onAdd = (manga) => {
     axios.post('http://localhost:3001/data', manga)
@@ -22,14 +22,16 @@ const MangaTable = () => {
       })
   }
 
-  const handleFilterChange = (e) => {
-    e.preventDefault()
-    setFilter(e.target.value)
-  }
-
   return (
     <>
     <div>
+      <div>
+        <button onClick={() => (setFilter('reading'))}>Reading</button>
+        <button onClick={() => (setFilter('to start'))}>To start</button>
+        <button onClick={() => (setFilter('finished'))}>Finished</button>
+        <button onClick={() => (setFilter(''))}>All</button>
+        &nbsp; currently viewing: &nbsp; {filter ? filter : "All"}
+      </div>
       <table width='60%'>
         <tbody>
         <tr>
@@ -49,12 +51,6 @@ const MangaTable = () => {
         )}
         </tbody>
       </table>
-      <select value={filter} onChange={handleFilterChange}>
-          <option value={''}>All</option>
-          <option value={'reading'}>Reading</option>
-          <option value={'finished'}>Finished</option>
-          <option value={'to start'}>To start</option>
-      </select>
     </div>
     <div>
       <br />
