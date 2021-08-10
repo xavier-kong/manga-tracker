@@ -37,10 +37,30 @@ const TableSingle = (data) => {
     }
   }
 
+  const dateHandler = (date) => {
+    const now = new Date()
+    const last = new Date(date)
+    const dateSeconds = (last).getTime()
+    const s = ( now.getTime() - dateSeconds ) / 1000 //seconds
+    if (s < 60) {
+      return "just now"
+    } else if (s < 60*60) {
+      return `${Math.floor(s/60)} minute(s) ago`
+    } else if (s < 60*60*24) {
+      return `${Math.floor(s/(60*60))} hour(s) ago`
+    } else if (s < 60*60*24*30) {
+      return `${Math.floor(s/(60*60*24))} day(s) ago`
+    } else if (s < 60*60*24*30*12) {
+      return `${Math.floor(s/(60*60*24*30))} month(s) ago`
+    } else {
+      return `${Math.floor(s/(60*60*24*30*12))} year(s) ago`
+    }
+  } 
+
   return (
       <tr style={style}>
         <td>{manga.title}</td>
-        <td>{manga.lastRead}</td>
+        <td>{dateHandler(manga.lastRead)}</td>
         <td>
           <button onClick={buttonHandler}>{'<'}</button>
           &nbsp;{manga.current}&nbsp;

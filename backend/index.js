@@ -8,7 +8,7 @@ app.use(express.json())
 let data = [
   {
     "title": "더 페이블 ",
-    "lastRead": "Just now",
+    "lastRead": "2021-08-10T17:35:00",
     "current": 34,
     "link": "http://www.manga.com/1/",
     "id": 1,
@@ -16,7 +16,7 @@ let data = [
   },
   {
     "title": "극주부도",
-    "lastRead": "Just now",
+    "lastRead": "2021-01-08T17:05:00",
     "current": 15,
     "link": "http://www.manga.com/2/",
     "id": 2,
@@ -24,7 +24,7 @@ let data = [
   },
   {
     "title": "더 파이팅",
-    "lastRead": "Just now",
+    "lastRead": "2021-08-09T17:05:00",
     "current": 5,
     "link": "http://www.manga.com/3/",
     "id": 3,
@@ -41,7 +41,7 @@ app.get('/data', (req, res ) => {
 })
 
 app.post('/data', (req, res) => {
-  const manga = { ...req.body, id: data.length+1}
+  const manga = { ...req.body, id: data.length+1, lastRead: Date()}
   data = data.concat(manga)
   res.json(manga)
 })
