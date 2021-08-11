@@ -19,8 +19,10 @@ const TableSingle = (data) => {
       axios.put(`http://localhost:3001/data/${manga.id}`, newManga)
         .then(res => {
           setManga(res.data)
+          data.alert(`${res.data.title} moved to previous chapter`)
         })
         .catch(e => {
+          data.alert(`Error: ${e}`)
           console.log(e)
         })
     } else if (e.target.outerText === '>' ) {
@@ -28,8 +30,10 @@ const TableSingle = (data) => {
       axios.put(`http://localhost:3001/data/${manga.id}`, newManga)
         .then(res => {
           setManga(res.data)
+          data.alert(`${res.data.title} moved to next chapter`)
         })
         .catch(e => {
+          data.alert(`Error: ${e}`)
           console.log(e)
         })
     }

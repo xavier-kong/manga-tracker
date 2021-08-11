@@ -1,30 +1,42 @@
 import React, { useEffect, useState } from 'react'
 import TableSingle from './TableSingle'
 import AddMangaForm from './AddMangaForm'
+import Notifications from './Notifications'
 import axios from 'axios'
+
+let denotifyTimeout = 0
 
 const MangaTable = () => {
   const [ data, setData ] = useState([])
   const [ filter, setFilter ] = useState('reading')
+  const [ message, setMessage ] = useState('')
 
   useEffect(() => {
     axios.get('http://localhost:3001/data').then(res =>{
       const newData = res.data
       setData(newData)
     })
-  }, [])
+  }, [filter])
 
   const onAdd = (manga) => {
     axios.post('http://localhost:3001/data', manga)
       .then(res => {
         const newManga = res.data
         setData(data.concat(newManga))
+        notificationHandler(`Added new manga ${newManga.title}`, setMessage)
       })
+  }
+
+  const notificationHandler = (message) => {
+    clearTimeout(denotifyTimeout)
+    denotifyTimeout = setTimeout(() => {setMessage('')}, 2500)
+    setMessage(message)
   }
 
   return (
     <>
     <div>
+      <Notifications message={message}/>
       <div>
         <button onClick={() => (setFilter('reading'))}>Reading</button>
         <button onClick={() => (setFilter('to start'))}>To start</button>
@@ -45,7 +57,7 @@ const MangaTable = () => {
         {data
           .filter(manga => manga.status.includes(filter))
           .map(manga =>
-          <TableSingle manga={manga} key={manga.id} />
+          <TableSingle manga={manga} key={manga.id} alert={(message) => notificationHandler(message)}/>
         )}
         </tbody>
       </table>
