@@ -10,16 +10,17 @@ const MangaTable = () => {
   const [ data, setData ] = useState([])
   const [ filter, setFilter ] = useState('reading')
   const [ message, setMessage ] = useState('')
+  const baseUrl = 'http://localhost:3001/data'
 
   useEffect(() => {
-    axios.get('http://localhost:3001/data').then(res =>{
+    axios.get(baseUrl).then(res =>{
       const newData = res.data
       setData(newData)
     })
   }, [filter])
 
   const onAdd = (manga) => {
-    axios.post('http://localhost:3001/data', manga)
+    axios.post(baseUrl, manga)
       .then(res => {
         const newManga = res.data
         setData(data.concat(newManga))

@@ -7,6 +7,7 @@ const style = {
 
 const TableSingle = (data) => {
   const [ manga, setManga ] = useState('')
+  const baseUrl = 'http://localhost:3001/data'
   
   useEffect(() => {
     setManga(data.manga)
@@ -16,7 +17,7 @@ const TableSingle = (data) => {
     e.preventDefault()
     if (e.target.outerText === '<' ) {
       const newManga = { ...manga, current: manga.current-=1 }
-      axios.put(`http://localhost:3001/data/${manga.id}`, newManga)
+      axios.put(`${baseUrl}/${manga.id}`, newManga)
         .then(res => {
           setManga(res.data)
           data.alert(`${res.data.title} moved to previous chapter`)
@@ -27,7 +28,7 @@ const TableSingle = (data) => {
         })
     } else if (e.target.outerText === '>' ) {
       const newManga = { ...manga, current: manga.current+=1, lastRead: new Date() }
-      axios.put(`http://localhost:3001/data/${manga.id}`, newManga)
+      axios.put(`${baseUrl}/${manga.id}`, newManga)
         .then(res => {
           setManga(res.data)
           data.alert(`${res.data.title} moved to next chapter`)
@@ -43,7 +44,7 @@ const TableSingle = (data) => {
     e.preventDefault()
     if (window.confirm(`Are you sure you want to mark ${manga.title} as ${e.target.value}`)) {
       const newManga = { ...manga, status: e.target.value }
-      axios.put(`http://localhost:3001/data/${manga.id}`, newManga)
+      axios.put(`${baseUrl}/${manga.id}`, newManga)
         .then(res => {
           setManga(res.data)
         })
