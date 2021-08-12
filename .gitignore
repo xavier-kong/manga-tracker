@@ -6,7 +6,7 @@
 /backend/test.rest
 /.pnp
 .pnp.js
-gameplan.txt
+/planning/gameplan.txt
 
 # testing
 /coverage
