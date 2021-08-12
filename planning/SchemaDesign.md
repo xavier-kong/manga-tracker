@@ -14,11 +14,26 @@ So the database should be designed such that:
 A possible schema design that might satisfy the above requirements:
 
 ```
-User: 
+Users: 
 {
+  ObjectId
   name: String,
   username: String,
   password: String, <- hashed
-  recent: Array, <- contains ids of recently read mangas 
+  recent: [{
+    ObjectId,
+    chapter: Number
+  }] <- array of recently read mangas 
 }
+Mangas:
+{
+  title: String,
+  mainUrl: String,
+  users: [{
+    ObjectId,
+    chapter: Number,
+    status: String, 
+    lastRead: String,
+  }] <- array of users with status and last read date
+} 
 ```
