@@ -38,4 +38,6 @@ Mangas:
 } 
 ```
 
-While all mangas beloning to a single user could potentially be stored in a single User document, it might not be an efficient solution. Given that it is of priority to retrieve list of currently reading manga as efficiently as possible, by including an array of only recently read titles, it reduces the need to iterate over entire arrays to search for titles that match last read dates.   
+While all mangas beloning to a single user could potentially be stored in a single User document, it might not be an efficient solution. Given that it is of priority to retrieve list of currently reading manga as efficiently as possible, by including an array of only recently read titles, it reduces the need to iterate over entire arrays to search for titles that match last read dates. This also adheres to the recommendation that "data that is accessed together should be stored toegther". as the user is more likely to only need the currently reading list. 
+
+Another advantage of this solution is that at scale this allows title and url info to be shared betweeen users and also prevents each individual User document from reaching impractical sizes. While it is possible that very popular titles might contain large "users" fields, this could be solved with "buckets". This would be less of an issue compared to using a similar approach for storing all titles in individual user documents. 
