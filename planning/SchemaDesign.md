@@ -14,23 +14,30 @@ So the database should be designed such that:
 A possible schema design that might satisfy the above requirements:
 
 ```
-Users: 
+User: 
 {
   ObjectId
   name: String,
-  username: String,
-  password: String, <- hashed
+  username: {
+    type: String,
+    unique: true,
+    required: true,
+    minLength: 3
+  },
+  password: String, <- hashed (not returned)
   recent: [{
     ObjectId
+    Ref: "Manga"
   }] <- array of recently read **Mangas** 
 }
 
-Mangas:
+Manga:
 {
   title: String,
   mainUrl: String,
   users: [{
     ObjectId,
+    Ref: "User",
     chapter: Number,
     status: String, 
     lastRead: String,
