@@ -13,6 +13,7 @@ So the database should be designed such that:
 
 A possible schema design that might satisfy the above requirements:
 
+```
 User: 
 {
   name: String,
@@ -20,3 +21,4 @@ User:
   password: String, <- hashed
   recent: Array, <- contains ids of recently read mangas 
 }
+```
