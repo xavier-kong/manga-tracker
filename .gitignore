@@ -5,6 +5,7 @@
 /backend/node_modules
 /backend/test.rest
 /backend/.env
+/backend/mockdata.txt
 /.pnp
 .pnp.js
 /planning/gameplan.txt

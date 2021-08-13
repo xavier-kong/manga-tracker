@@ -1,8 +1,12 @@
 const express = require('express')
+const jwt = require('jsonwebtoken')
 const cors = require('cors')
 const app = express()
 const mongoose = require('mongoose')
+const User = require('./models/user')
 const Manga = require('./models/manga')
+const bcrypt = require('bcrypt')
+
 require('dotenv').config()
 
 mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true })
@@ -13,62 +17,85 @@ mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTop
     console.log('error connecting to MongoDB:', error.message)
   })
 
-
 app.use(cors())
 app.use(express.json())
 
-let data = [
-  {
-    "title": "더 페이블 ",
-    "lastRead": "2021-08-10T17:35:00",
-    "current": 34,
-    "link": "http://www.manga.com/1/",
-    "id": 1,
-    "status": "reading"
-  },
-  {
-    "title": "극주부도",
-    "lastRead": "2021-01-08T17:05:00",
-    "current": 15,
-    "link": "http://www.manga.com/2/",
-    "id": 2,
-    "status": "finished"
-  },
-  {
-    "title": "더 파이팅",
-    "lastRead": "2021-08-09T17:05:00",
-    "current": 5,
-    "link": "http://www.manga.com/3/",
-    "id": 3,
-    "status": "to start"
-  }
-]
+
 
 app.get('/', (req, res ) => {
   res.send('hello')
 })
 
-app.get('/data', (req, res ) => {
-  res.send(data)
-})
+// app.get('/data', (req, res ) => {
+//   res.send(data)
+// })
 
-app.post('/data', async (req, res) => {
-  // const manga = { ...req.body, id: data.length+1, lastRead: Date()}
-  // data = data.concat(manga)
-  // res.json(manga)
-  const manga = new Manga({ ...req.body, lastRead: Date()})
+app.post('/api/manga', async (req, res) => {
+  const manga = new Manga(req.body)
   const savedManga = await manga.save()
   res.json(savedManga)
 })
 
-app.put('/data/:id', (req, res) => {
-  const newManga = req.body
-  data = data.map(manga => manga.id === newManga.id ? newManga : manga)
-  res.json(newManga)
+app.post('/api/users', async (req, res) => {
+  const body = req.body
+
+  const saltRounds = 10
+  const passwordHash = await bcrypt.hash(body.password, saltRounds)
+
+  const user = new User({
+    username: body.username,
+    name: body.username,
+    passwordHash,
+  })
+
+  const savedUser = await user.save()
+
+  res.json(savedUser)
 })
+
+app.post('/api/login', async (req, res) => {
+  const body = req.body
+
+  const user = await User.findOne({ username: body.username })
+  const passwordCorrect = user === null 
+    ? false
+    : await bcrypt.compare(body.password, user.passwordHash)
+
+  if (!(user && passwordCorrect)) {
+    return res.status(401).json({
+      error: 'invalid username of password'
+    })
+  }
+
+  const userForToken = {
+    username: user.username,
+    id: user._id
+  }
+
+  const token = jwt.sign(
+    userForToken, 
+    process.env.SECRET,
+    { expiresIn: 60*60*3 } // token expires in 3 hours
+    )
+
+  res
+    .status(200)
+    .send({ 
+      token,
+      username: user.username,
+      name: user.name
+    })
+})
+
+// app.put('/data/:id', (req, res) => {
+//   const newManga = req.body
+//   data = data.map(manga => manga.id === newManga.id ? newManga : manga)
+//   res.json(newManga)
+// })
 
 const PORT = 3001
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })
+
