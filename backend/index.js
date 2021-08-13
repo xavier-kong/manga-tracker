@@ -1,6 +1,18 @@
 const express = require('express')
 const cors = require('cors')
 const app = express()
+const mongoose = require('mongoose')
+const Manga = require('./models/manga')
+require('dotenv').config()
+
+mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true })
+  .then(() => {
+    console.log('connected to MongoDB')
+  })
+  .catch((error) => {
+    console.log('error connecting to MongoDB:', error.message)
+  })
+
 
 app.use(cors())
 app.use(express.json())
@@ -40,10 +52,13 @@ app.get('/data', (req, res ) => {
   res.send(data)
 })
 
-app.post('/data', (req, res) => {
-  const manga = { ...req.body, id: data.length+1, lastRead: Date()}
-  data = data.concat(manga)
-  res.json(manga)
+app.post('/data', async (req, res) => {
+  // const manga = { ...req.body, id: data.length+1, lastRead: Date()}
+  // data = data.concat(manga)
+  // res.json(manga)
+  const manga = new Manga({ ...req.body, lastRead: Date()})
+  const savedManga = await manga.save()
+  res.json(savedManga)
 })
 
 app.put('/data/:id', (req, res) => {

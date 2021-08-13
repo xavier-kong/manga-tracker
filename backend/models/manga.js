@@ -1,7 +1,13 @@
 const mongoose = require('mongoose')
+const uniqueValidator = require('mongoose-unique-validator')
 
 const mangaSchema = new mongoose.Schema({
-    title: String,
+    title: {
+      type: String,
+      unique: true,
+      required: true,
+      minLength: 3
+    },
     mainUrl: String,
     users: [{
       type: mongoose.Schema.Types.ObjectId,
@@ -11,6 +17,8 @@ const mangaSchema = new mongoose.Schema({
       lastRead: String,
     }] 
 })
+
+mangaSchema.plugin(uniqueValidator)
 
 mangaSchema.set('toJSON', {
   transform: (document, returnedObject) => {
