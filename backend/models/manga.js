@@ -4,14 +4,15 @@ const uniqueValidator = require('mongoose-unique-validator')
 const mangaSchema = new mongoose.Schema({
     title: {
       type: String,
-      unique: true,
       required: true,
       minLength: 3
     },
     mainUrl: String,
     users: [{
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
+      user: { 
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+      },
       chapter: Number,
       status: String, 
       lastRead: String,
