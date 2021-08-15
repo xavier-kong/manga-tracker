@@ -20,14 +20,6 @@ mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTop
 app.use(cors())
 app.use(express.json())
 
-app.get('/', (req, res ) => {
-  res.send('hello')
-})
-
-// app.get('/data', (req, res ) => {
-//   res.send(data)
-// })
-
 const getTokenFrom = request => {
   const authorization = request.get('authorization')
   if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
@@ -35,6 +27,25 @@ const getTokenFrom = request => {
   }
   return null
 }
+
+app.get('/api/manga', async (req, res) => {
+  const token = getTokenFrom(req) // refactor into own function
+  const decodedToken = jwt.verify(token, process.env.SECRET)
+  if (!token || !decodedToken.id) {
+    return res.status(401).json({ error: 'token missing or invalid' })
+  }
+
+  const user = await User
+    .findById(decodedToken.id)
+    .populate('recentMangas', 'users')
+  // const info = user.recentMangas.map((manga) => {
+  //   // const mangaInfo = await Manga.findById(manga)
+  //   // const readInfo = await mangaInfo.users.filter(person => String(person.user._id) === user.id)
+  //   // return readInfo[0]
+  //   return `this is ${manga}`
+  // })
+  res.json(user)
+})
 
 app.post('/api/manga', async (req, res) => {
   const token = getTokenFrom(req)
@@ -132,23 +143,17 @@ app.put('/api/manga/:id', async (req,res) => {
   const user = await User.findById(decodedToken.id)
   const manga = await Manga.findById(req.params.id)
   const userIndex = manga.users.findIndex(person => String(person.user) === user.id)
-  if (req.body.newStatus) {
-    manga.users[userIndex].status = req.body.newStatus
-    const savedManga = await manga.save()
-    if (req.body.newStatus === 'reading') {
-      user.recentMangas = user.recentMangas.concat(savedManga.id)
-      await user.save()
-    } else {
-      user.recentMangas = user.recentMangas.filter(manga => String(manga) !==  savedManga.id)
-      await user.save()
-    }
-    res.json(user)
-  } else if (req.body.newChapter) {
-    manga.users[userIndex].chapter = req.body.newChapter
-    const savedManga = await manga.save()
-    res.json(savedManga)
+  manga.users[userIndex].status = req.body.status
+  manga.users[userIndex].chapter = req.body.chapter
+  const savedManga = await manga.save()
+  if (req.body.status === 'reading') {
+    user.recentMangas = user.recentMangas.concat(savedManga.id)
+    await user.save()
+  } else {
+    user.recentMangas = user.recentMangas.filter(manga => String(manga) !==  savedManga.id)
+    await user.save()
   }
-  
+  res.json(manga)
 })
 
 const PORT = 3001

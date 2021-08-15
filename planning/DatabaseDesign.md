@@ -1,3 +1,41 @@
+Version 2:
+After working on the project, I saw that Version 1 's limitations would lead to overcomplicating server side operations. Other database options such as postgresql were considered but were ruled out due to being "overkill" for the task at hand. Nosql document based options such as mongoDB would still be applicable. A new schema was proposed:
+
+```
+Manga: {
+  title: String,
+  mainUrl: String,
+}
+
+User: {
+  ObjectId
+  name: String,
+  username: {
+    type: String,
+    unique: true,
+    required: true,
+    minLength: 3
+  },
+  password: String, <- hashed (not returned)
+  mangas: [{
+    manga: {
+      ObjectId
+      Ref: "Manga"
+    }
+    id: Number,
+    chapter: Number,
+    lastRead: String
+    status: String
+  }]
+}
+```
+
+The advantages of this new design:
+* Queries are simple to do as all user title's are returned at once, filtering can be done client side 
+* Information of other users are never accessed, even on the server side
+* Updating for single titles can be still be simple with ids
+
+Version 1:
 Based on the usage of my initial spreadsheet tracker, I observed the following:
 * Updating current chapter: more than once per day (WRITE)
 * Opening tracker: at least once per day (READ)
