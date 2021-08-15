@@ -10,12 +10,16 @@ const userSchema = new mongoose.Schema({
   },
   name: String,
   passwordHash: String,
-  recentMangas: [
-    {
+  mangas: [{
+    manga: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Manga'
-    }
-  ],
+    },
+    id: Number,
+    chapter: Number,
+    lastRead: String,
+    status: String
+  }],
 })
 
 userSchema.plugin(uniqueValidator)

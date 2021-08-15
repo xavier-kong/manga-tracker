@@ -12,7 +12,6 @@ Manga: {
 }
 
 User: {
-  ObjectId
   name: String,
   username: {
     type: String,
@@ -23,9 +22,9 @@ User: {
   password: String, <- hashed (not returned)
   mangas: [{
     manga: {
-      ObjectId
-      Ref: "Manga"
-    }
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Manga'
+    },
     id: Number,
     chapter: Number,
     lastRead: String
