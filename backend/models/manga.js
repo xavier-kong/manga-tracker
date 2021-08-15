@@ -5,18 +5,9 @@ const mangaSchema = new mongoose.Schema({
     title: {
       type: String,
       required: true,
-      minLength: 3
+      minLength: 1
     },
     mainUrl: String,
-    users: [{
-      user: { 
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
-      },
-      chapter: Number,
-      status: String, 
-      lastRead: String,
-    }] 
 })
 
 mangaSchema.plugin(uniqueValidator)

@@ -3,7 +3,11 @@ After working on the project, I saw that Version 1 's limitations would lead to 
 
 ```
 Manga: {
-  title: String,
+  title: {
+      type: String,
+      required: true,
+      minLength: 1
+    },
   mainUrl: String,
 }
 
