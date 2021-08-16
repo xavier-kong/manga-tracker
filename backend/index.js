@@ -128,12 +128,6 @@ app.post('/api/login', async (req, res) => {
     })
 })
 
-// app.put('/data/:id', (req, res) => {
-//   const newManga = req.body
-//   data = data.map(manga => manga.id === newManga.id ? newManga : manga)
-//   res.json(newManga)
-// })
-
 app.put('/api/manga/:id', async (req,res) => {
   const token = getTokenFrom(req)
   const decodedToken = jwt.verify(token, process.env.SECRET)
