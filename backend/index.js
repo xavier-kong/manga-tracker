@@ -55,25 +55,35 @@ app.post('/api/manga', async (req, res) => {
   }
   const user = await User.findById(decodedToken.id)
   const manga = await Manga.findOne({ title: req.body.title })
-  const mangaUser = {
-    user: user._id,
-    chapter: 0,
-    status: 'to start'
-  }
   if (manga) {
-    const userInManga = await manga.users.filter(person => String(person.user._id) === user.id)
-    if (userInManga.length === 1) {
+    const mangaInUser = await user.mangas.filter(single => String(single.mangaId) === String(manga._id))
+    if (mangaInUser.length === 1) {
       res.json({ error: 'user already added manga to collection'})
-    } else if (userInManga.length === 0) {
-      manga.users = manga.users.concat(mangaUser)
-      await manga.save()
-      res.json(manga)
-    }
+    } else if (mangaInUser.length === 0) {
+      const addedManga = {
+        mangaId: manga._id,
+        id: user.mangas.length,
+        chapter: 0,
+        lastRead: "never",
+        status: "to start"
+      }
+      user.mangas = user.mangas.concat(addedManga)
+      await user.save()
+      res.json(user)
+    } 
   } else if (!manga) {
     const newManga = new Manga(req.body)
-    newManga.users = newManga.users.concat(mangaUser)
     const savedManga = await newManga.save()
-    res.json(savedManga)
+    const addedManga = {
+      mangaId: savedManga._id,
+      id: user.mangas.length,
+      chapter: 0,
+      lastRead: "never",
+      status: "to start"
+    }
+    user.mangas = user.mangas.concat(addedManga)
+    await user.save()
+    res.json(user)
   }
 })
 

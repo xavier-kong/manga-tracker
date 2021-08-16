@@ -11,11 +11,10 @@ const userSchema = new mongoose.Schema({
   name: String,
   passwordHash: String,
   mangas: [{
-    manga: {
+    mangaId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Manga'
     },
-    id: Number,
     chapter: Number,
     lastRead: String,
     status: String
