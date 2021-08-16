@@ -63,8 +63,8 @@ app.post('/api/manga', async (req, res) => {
       const addedManga = {
         mangaId: manga._id,
         id: user.mangas.length,
-        chapter: 0,
-        lastRead: "never",
+        chapter: 1,
+        lastRead: new Date(),
         status: "to start"
       }
       user.mangas = user.mangas.concat(addedManga)
@@ -77,8 +77,8 @@ app.post('/api/manga', async (req, res) => {
     const addedManga = {
       mangaId: savedManga._id,
       id: user.mangas.length,
-      chapter: 0,
-      lastRead: "never",
+      chapter: 1,
+      lastRead: new Date(),
       status: "to start"
     }
     user.mangas = user.mangas.concat(addedManga)
@@ -138,26 +138,25 @@ app.post('/api/login', async (req, res) => {
     })
 })
 
-app.put('/api/manga/:id', async (req,res) => {
+app.put('/api/manga', async (req,res) => {
   const token = getTokenFrom(req)
   const decodedToken = jwt.verify(token, process.env.SECRET)
   if (!token || !decodedToken.id) {
     return res.status(401).json({ error: 'token missing or invalid' })
   }
   const user = await User.findById(decodedToken.id)
-  const manga = await Manga.findById(req.params.id)
-  const userIndex = manga.users.findIndex(person => String(person.user) === user.id)
-  manga.users[userIndex].status = req.body.status
-  manga.users[userIndex].chapter = req.body.chapter
-  const savedManga = await manga.save()
-  if (req.body.status === 'reading') {
-    user.recentMangas = user.recentMangas.concat(savedManga.id)
-    await user.save()
-  } else {
-    user.recentMangas = user.recentMangas.filter(manga => String(manga) !==  savedManga.id)
-    await user.save()
+  const mangaIndex = await user.mangas.findIndex(manga => String(manga._id) === String(req.body.id))
+  if (req.body.status) {
+    user.mangas[mangaIndex].status = req.body.status
   }
-  res.json(manga)
+  if (req.body.chapter) {
+    user.mangas[mangaIndex].chapter = req.body.chapter
+  }
+  if (req.body.lastRead) {
+    user.mangas[mangaIndex].lastRead = req.body.lastRead
+  }
+  const updatedUser = await user.save()
+  res.json(updatedUser)
 })
 
 const PORT = 3001

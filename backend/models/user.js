@@ -16,7 +16,7 @@ const userSchema = new mongoose.Schema({
       ref: 'Manga'
     },
     chapter: Number,
-    lastRead: String,
+    lastRead: Date,
     status: String
   }],
 })
