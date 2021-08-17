@@ -38,6 +38,16 @@ app.get('/api/manga/all', async (req, res) => {
   res.json(mangas)
 })
 
+app.get('/api/user/mangas', async (req, res) => {
+  const token = getTokenFrom(req) // refactor into own function?
+  const decodedToken = jwt.verify(token, process.env.SECRET)
+  if (!token || !decodedToken.id) {
+    return res.status(401).json({ error: 'token missing or invalid' })
+  }
+  const user = await User.findById(decodedToken.id).populate('mangas.manga')
+  res.json(user)
+})
+
 app.post('/api/manga', async (req, res) => {
   const token = getTokenFrom(req)
   const decodedToken = jwt.verify(token, process.env.SECRET)
@@ -52,8 +62,7 @@ app.post('/api/manga', async (req, res) => {
       res.json({ error: 'user already added manga to collection'})
     } else if (mangaInUser.length === 0) {
       const addedManga = {
-        mangaId: manga._id,
-        id: user.mangas.length,
+        manga: manga._id,
         chapter: 1,
         lastRead: new Date(),
         status: "to start"
@@ -66,8 +75,7 @@ app.post('/api/manga', async (req, res) => {
     const newManga = new Manga(req.body)
     const savedManga = await newManga.save()
     const addedManga = {
-      mangaId: savedManga._id,
-      id: user.mangas.length,
+      manga: savedManga._id,
       chapter: 1,
       lastRead: new Date(),
       status: "to start"

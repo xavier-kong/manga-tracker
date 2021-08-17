@@ -11,7 +11,7 @@ const userSchema = new mongoose.Schema({
   name: String,
   passwordHash: String,
   mangas: [{
-    mangaId: {
+    manga: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Manga'
     },
