@@ -7,6 +7,7 @@ const User = require('./models/user')
 const Manga = require('./models/manga')
 const bcrypt = require('bcrypt')
 const loginRouter= require('./routers/loginRouter')
+const mangaRouter= require('./routers/mangaRouter')
 
 require('dotenv').config()
 
@@ -115,18 +116,18 @@ app.put('/api/manga', async (req,res) => {
   res.json(updatedUser)
 })
 
-app.get('/api/manga/all', async (req, res) => {
-  const token = getTokenFrom(req) // refactor into own function?
-  const decodedToken = jwt.verify(token, process.env.SECRET)
-  if (!token || !decodedToken.id) {
-    return res.status(401).json({ error: 'token missing or invalid' })
-  }
-  const mangas = await Manga.find({})
-  res.json(mangas)
-})
+// app.get('/api/manga/all', async (req, res) => {
+//   const token = getTokenFrom(req) // refactor into own function?
+//   const decodedToken = jwt.verify(token, process.env.SECRET)
+//   if (!token || !decodedToken.id) {
+//     return res.status(401).json({ error: 'token missing or invalid' })
+//   }
+//   const mangas = await Manga.find({})
+//   res.json(mangas)
+// })
 
 
-
+app.use('/api/manga', mangaRouter)
 app.use('/api/login', loginRouter)
 
 
