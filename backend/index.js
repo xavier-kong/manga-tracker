@@ -6,6 +6,7 @@ const mongoose = require('mongoose')
 const User = require('./models/user')
 const Manga = require('./models/manga')
 const bcrypt = require('bcrypt')
+const loginRouter= require('./routers/loginRouter')
 
 require('dotenv').config()
 
@@ -28,14 +29,21 @@ const getTokenFrom = request => {
   return null
 }
 
-app.get('/api/manga/all', async (req, res) => {
-  const token = getTokenFrom(req) // refactor into own function?
-  const decodedToken = jwt.verify(token, process.env.SECRET)
-  if (!token || !decodedToken.id) {
-    return res.status(401).json({ error: 'token missing or invalid' })
-  }
-  const mangas = await Manga.find({})
-  res.json(mangas)
+app.post('/api/users', async (req, res) => {
+  const body = req.body
+
+  const saltRounds = 10
+  const passwordHash = await bcrypt.hash(body.password, saltRounds)
+
+  const user = new User({
+    username: body.username,
+    name: body.username,
+    passwordHash,
+  })
+
+  const savedUser = await user.save()
+
+  res.json(savedUser)
 })
 
 app.get('/api/user/mangas', async (req, res) => {
@@ -86,57 +94,6 @@ app.post('/api/manga', async (req, res) => {
   }
 })
 
-app.post('/api/users', async (req, res) => {
-  const body = req.body
-
-  const saltRounds = 10
-  const passwordHash = await bcrypt.hash(body.password, saltRounds)
-
-  const user = new User({
-    username: body.username,
-    name: body.username,
-    passwordHash,
-  })
-
-  const savedUser = await user.save()
-
-  res.json(savedUser)
-})
-
-app.post('/api/login', async (req, res) => {
-  const body = req.body
-
-  const user = await User.findOne({ username: body.username })
-  const passwordCorrect = user === null 
-    ? false
-    : await bcrypt.compare(body.password, user.passwordHash)
-
-  if (!(user && passwordCorrect)) {
-    return res.status(401).json({
-      error: 'invalid username of password'
-    })
-  }
-
-  const userForToken = {
-    username: user.username,
-    id: user._id
-  }
-
-  const token = jwt.sign(
-    userForToken, 
-    process.env.SECRET,
-    { expiresIn: 60*60*3 } // token expires in 3 hours
-    )
-
-  res
-    .status(200)
-    .send({ 
-      token,
-      username: user.username,
-      name: user.name
-    })
-})
-
 app.put('/api/manga', async (req,res) => {
   const token = getTokenFrom(req)
   const decodedToken = jwt.verify(token, process.env.SECRET)
@@ -157,6 +114,22 @@ app.put('/api/manga', async (req,res) => {
   const updatedUser = await user.save()
   res.json(updatedUser)
 })
+
+app.get('/api/manga/all', async (req, res) => {
+  const token = getTokenFrom(req) // refactor into own function?
+  const decodedToken = jwt.verify(token, process.env.SECRET)
+  if (!token || !decodedToken.id) {
+    return res.status(401).json({ error: 'token missing or invalid' })
+  }
+  const mangas = await Manga.find({})
+  res.json(mangas)
+})
+
+
+
+app.use('/api/login', loginRouter)
+
+
 
 const PORT = 3001
 
