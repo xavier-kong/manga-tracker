@@ -31,23 +31,6 @@ const getTokenFrom = request => {
   return null
 }
 
-// app.post('/api/users', async (req, res) => {
-//   const body = req.body
-
-//   const saltRounds = 10
-//   const passwordHash = await bcrypt.hash(body.password, saltRounds)
-
-//   const user = new User({
-//     username: body.username,
-//     name: body.username,
-//     passwordHash,
-//   })
-
-//   const savedUser = await user.save()
-
-//   res.json(savedUser)
-// })
-
 app.get('/api/user/mangas', async (req, res) => {
   const token = getTokenFrom(req) // refactor into own function?
   const decodedToken = jwt.verify(token, process.env.SECRET)
