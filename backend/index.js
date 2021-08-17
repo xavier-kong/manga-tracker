@@ -28,23 +28,14 @@ const getTokenFrom = request => {
   return null
 }
 
-app.get('/api/manga', async (req, res) => {
-  const token = getTokenFrom(req) // refactor into own function
+app.get('/api/manga/all', async (req, res) => {
+  const token = getTokenFrom(req) // refactor into own function?
   const decodedToken = jwt.verify(token, process.env.SECRET)
   if (!token || !decodedToken.id) {
     return res.status(401).json({ error: 'token missing or invalid' })
   }
-
-  const user = await User
-    .findById(decodedToken.id)
-    .populate('recentMangas', 'users')
-  // const info = user.recentMangas.map((manga) => {
-  //   // const mangaInfo = await Manga.findById(manga)
-  //   // const readInfo = await mangaInfo.users.filter(person => String(person.user._id) === user.id)
-  //   // return readInfo[0]
-  //   return `this is ${manga}`
-  // })
-  res.json(user)
+  const mangas = await Manga.find({})
+  res.json(mangas)
 })
 
 app.post('/api/manga', async (req, res) => {
