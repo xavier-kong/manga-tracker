@@ -1,9 +1,8 @@
-const userRouter = require('express').Router()
-const Manga = require('../models/manga')
+const usersRouter = require('express').Router()
 const User = require('../models/user')
-const jwt = require('jsonwebtoken')
+const bcrypt = require('bcrypt')
 
-userRouter.post('/api/users', async (req, res) => {
+usersRouter.post('/', async (req, res) => {
   const body = req.body
 
   const saltRounds = 10
@@ -20,5 +19,4 @@ userRouter.post('/api/users', async (req, res) => {
   res.json(savedUser)
 })
 
-
-module.exports = userRouter
+module.exports = usersRouter

@@ -8,6 +8,7 @@ const Manga = require('./models/manga')
 const bcrypt = require('bcrypt')
 const loginRouter= require('./routers/loginRouter')
 const mangaRouter= require('./routers/mangaRouter')
+const usersRouter= require('./routers/usersRouter')
 
 require('dotenv').config()
 
@@ -80,6 +81,7 @@ app.put('/api/user', async (req,res) => {
 
 app.use('/api/manga', mangaRouter)
 app.use('/api/login', loginRouter)
+app.use('/api/users', usersRouter)
 
 const PORT = 3001
 
