@@ -2,6 +2,7 @@ const express = require('express')
 const cors = require('cors')
 const app = express()
 const mongoose = require('mongoose')
+const morgan = require('morgan')
 const loginRouter= require('./routers/loginRouter')
 const mangaRouter= require('./routers/mangaRouter')
 const usersRouter= require('./routers/usersRouter')
@@ -21,12 +22,17 @@ mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTop
 app.use(cors())
 app.use(express.json())
 
+app.use(morgan('tiny'))
+
 app.use(middleware.tokenExtractor)
 app.use(middleware.userExtractor)
+
 app.use('/api/manga', mangaRouter)
 app.use('/api/login', loginRouter)
 app.use('/api/users', usersRouter)
 app.use('/api/user', userRouter)
+
+app.use(middleware.unknownEndpoint)
 
 const PORT = 3001
 
