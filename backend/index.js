@@ -6,6 +6,7 @@ const loginRouter= require('./routers/loginRouter')
 const mangaRouter= require('./routers/mangaRouter')
 const usersRouter= require('./routers/usersRouter')
 const userRouter= require('./routers/userRouter')
+const middleware = require('./utils/middleware')
 
 require('dotenv').config()
 
@@ -20,14 +21,8 @@ mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTop
 app.use(cors())
 app.use(express.json())
 
-const getTokenFrom = request => {
-  const authorization = request.get('authorization')
-  if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
-    return authorization.substring(7)
-  }
-  return null
-}
-
+app.use(middleware.tokenExtractor)
+app.use(middleware.userExtractor)
 app.use('/api/manga', mangaRouter)
 app.use('/api/login', loginRouter)
 app.use('/api/users', usersRouter)
