@@ -3,24 +3,18 @@ import MangaTable from './components/MangaTable'
 import Login from './components/Login'
 
 const App = () => {
-  const [ user, setUser ] = useState()
+  const [ user, setUser ] = useState('')
 
   useEffect(() => {
     const userJSON = localStorage.getItem('loggedInUser')
     if (userJSON) {
       setUser(JSON.parse(userJSON))
     }
-    // user ? setUser(true) : setUser(false)
   }, []) //implement token based later
 
-  // const login = () => {
-  //   localStorage.setItem('user', 'Tom');
-  //   setUser(true)
-  // }
-
   const logout = () => {
-    localStorage.removeItem('user');
-    setUser(false)
+    localStorage.removeItem('loggedInUser');
+    setUser('')
   }
 
   return (
