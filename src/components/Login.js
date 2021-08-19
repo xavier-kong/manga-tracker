@@ -1,14 +1,26 @@
 import React from 'react'
 import useField from '../hooks/useField'
+const axios = require('axios')
 
 const Login = ({ onLogin }) => {
   const username = useField('text')
   const password = useField('password')
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    console.log("logged in user", username.value, password.value )
-    onLogin()
+    try {
+      const response = await axios.post('http://localhost:3001/api/login', {
+      username: username.value,
+      password: password.value
+      })
+      window.localStorage.setItem(
+        'loggedInUser', JSON.stringify(response)
+      )
+    } catch (e) {
+      console.log(e)
+    }
+    
+    // onLogin()
   }
 
   //change later 

@@ -19,9 +19,7 @@ const userExtractor = async (request, response, next) => {
 
     const user = await User.findById(decodedToken.id).populate('mangas.manga')
     request.user = user
-  } else if (!request.token) {
-    return response.status(401).json({ error: 'token missing' })
-  }
+  } 
   next()
 }
 

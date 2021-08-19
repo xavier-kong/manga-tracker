@@ -11,6 +11,7 @@ const middleware = require('./utils/middleware')
 
 require('dotenv').config()
 
+
 mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true })
   .then(() => {
     console.log('connected to MongoDB')
@@ -19,8 +20,9 @@ mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTop
     console.log('error connecting to MongoDB:', error.message)
   })
 
-app.use(cors())
+
 app.use(express.json())
+app.use(cors())
 
 app.use(morgan('tiny'))
 
