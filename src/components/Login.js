@@ -2,7 +2,7 @@ import React from 'react'
 import useField from '../hooks/useField'
 const axios = require('axios')
 
-const Login = ({ onLogin }) => {
+const Login = () => {
   const username = useField('text')
   const password = useField('password')
 
@@ -19,8 +19,6 @@ const Login = ({ onLogin }) => {
     } catch (e) {
       console.log(e)
     }
-    
-    // onLogin()
   }
 
   //change later 
