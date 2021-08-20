@@ -2,7 +2,7 @@ import React from 'react'
 import useField from '../hooks/useField'
 const axios = require('axios')
 
-const Login = () => {
+const Login = ({ onLogin }) => {
   const username = useField('text')
   const password = useField('password')
 
@@ -14,8 +14,9 @@ const Login = () => {
       password: password.value
       })
       window.localStorage.setItem(
-        'loggedInUser', JSON.stringify(response)
+        'loggedInUser', JSON.stringify(response.data.token)
       )
+      onLogin()
     } catch (e) {
       console.log(e)
     }
