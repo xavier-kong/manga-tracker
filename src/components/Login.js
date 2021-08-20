@@ -14,10 +14,10 @@ const Login = ({ onLogin }) => {
       password: password.value
       })
       window.localStorage.setItem(
-        'loggedInUser', JSON.stringify(response.data.token)
+        'loggedInUser', JSON.stringify(response.data)
       )
       onLogin()
-    } catch (e) {
+    } catch (e) { 
       console.log(e)
     }
   }

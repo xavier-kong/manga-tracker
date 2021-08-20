@@ -7,17 +7,22 @@ const style = {
 
 const TableSingle = (data) => {
   const [ manga, setManga ] = useState('')
-  const baseUrl = 'http://localhost:3001/data'
+  const baseUrl = 'http://localhost:3001/api'
   
   useEffect(() => {
     setManga(data.manga)
   },[data])
 
   const buttonHandler = (e) => {
+    const user = JSON.parse(localStorage.getItem('loggedInUser'))
+    const token = `bearer ${user.token}`
+    const config = {
+      headers: { Authorization: token }
+    }
     e.preventDefault()
     if (e.target.outerText === '<' ) {
-      const newManga = { ...manga, current: manga.current-=1 }
-      axios.put(`${baseUrl}/${manga.id}`, newManga)
+      const newManga = { ...manga, chapter: manga.chapter-=1 }
+      axios.put(`${baseUrl}/user`, newManga, config)
         .then(res => {
           setManga(res.data)
           data.alert(`${res.data.title} moved to previous chapter`)
@@ -27,8 +32,8 @@ const TableSingle = (data) => {
           console.log(e)
         })
     } else if (e.target.outerText === '>' ) {
-      const newManga = { ...manga, current: manga.current+=1, lastRead: new Date() }
-      axios.put(`${baseUrl}/${manga.id}`, newManga)
+      const newManga = { ...manga, chapter: manga.chapter+=1, lastRead: new Date() }
+      axios.put(`${baseUrl}/user`, newManga, config)
         .then(res => {
           setManga(res.data)
           data.alert(`${res.data.title} moved to next chapter`)
@@ -76,11 +81,11 @@ const TableSingle = (data) => {
 
   return (
       <tr style={style}>
-        <td>{manga.title}</td>
+        <td>{manga.manga ? manga.manga.title : 'none'}</td>
         <td>{dateHandler(manga.lastRead)}</td>
         <td>
           <button onClick={buttonHandler}>{'<'}</button>
-          &nbsp;{manga.current}&nbsp;
+          &nbsp;{manga.chapter}&nbsp;
           <button onClick={buttonHandler}>{'>'}</button>
         </td>
         <td><a href={String(manga.link)}>Go</a></td>

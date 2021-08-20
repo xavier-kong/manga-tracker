@@ -10,22 +10,26 @@ const MangaTable = () => {
   const [ data, setData ] = useState([])
   const [ filter, setFilter ] = useState('reading')
   const [ message, setMessage ] = useState('')
-  const baseUrl = 'http://localhost:3001/data'
 
   useEffect(() => {
-    axios.get(baseUrl).then(res =>{
+    const user = JSON.parse(localStorage.getItem('loggedInUser'))
+    const token = `bearer ${user.token}`
+    const config = {
+      headers: { Authorization: token }
+    }
+    axios.get('http://localhost:3001/api/user/mangas', config).then(res =>{
       const newData = res.data
-      setData(newData)
+      setData(newData.mangas)
     })
   }, [filter])
 
   const onAdd = (manga) => {
-    axios.post(baseUrl, manga)
-      .then(res => {
-        const newManga = res.data
-        setData(data.concat(newManga))
-        notificationHandler(`Added new manga ${newManga.title}`, setMessage)
-      })
+    // axios.post(baseUrl, manga)
+    //   .then(res => {
+    //     const newManga = res.data
+    //     setData(data.concat(newManga))
+    //     notificationHandler(`Added new manga ${newManga.title}`, setMessage)
+    //   })
   }
 
   const notificationHandler = (message) => {
@@ -58,7 +62,7 @@ const MangaTable = () => {
         {data
           .filter(manga => manga.status.includes(filter))
           .map(manga =>
-          <TableSingle manga={manga} key={manga.id} alert={(message) => notificationHandler(message)}/>
+          <TableSingle manga={manga} key={manga._id} alert={(message) => notificationHandler(message)}/>
         )}
         </tbody>
       </table>
