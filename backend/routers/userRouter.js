@@ -19,7 +19,7 @@ userRouter.put('/', async (req,res) => {
   }
   await user.save()
   const updatedUser = await User.findById(req.user._id).populate('mangas.manga')
-  res.json(updatedUser)
+  res.json(updatedUser.mangas[mangaIndex])
 })
 
 module.exports = userRouter

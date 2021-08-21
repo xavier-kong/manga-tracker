@@ -10,7 +10,7 @@ const TableSingle = (data) => {
   const baseUrl = 'http://localhost:3001/api'
   
   useEffect(() => {
-    setManga(data.manga)
+    !manga ? setManga(data.manga) : setManga(manga)
   },[data, manga])
 
   const buttonHandler = (e) => {
