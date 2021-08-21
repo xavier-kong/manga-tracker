@@ -94,9 +94,9 @@ const TableSingle = (data) => {
         <td>
           <select onChange={handleFilterChange}>
             {<option value={manga.status}>{manga.status}</option>}
-            {manga.status === 'reading' ? null : <option value={'reading'}>Reading</option>}
-            {manga.status === 'finished' ? null : <option value={'finished'}>Finished</option>}
-            {manga.status === 'to start' ? null : <option value={'to start'}>To start</option>}
+            {manga.status === 'reading' ? null : <option value={'reading'}>reading</option>}
+            {manga.status === 'finished' ? null : <option value={'finished'}>finished</option>}
+            {manga.status === 'to start' ? null : <option value={'to start'}>to start</option>}
           </select>
         </td>
       </tr>
