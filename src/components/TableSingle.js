@@ -7,22 +7,23 @@ const style = {
 
 const TableSingle = (data) => {
   const [ manga, setManga ] = useState('')
-  const baseUrl = 'http://localhost:3001/api'
+  const baseUrl = 'http://localhost:3001/api/user'
   
   useEffect(() => {
     !manga ? setManga(data.manga) : setManga(manga)
   },[data, manga])
 
+  const user = JSON.parse(localStorage.getItem('loggedInUser'))
+  const token = `bearer ${user.token}`
+  const config = {
+    headers: { Authorization: token }
+  }
+
   const buttonHandler = (e) => {
-    const user = JSON.parse(localStorage.getItem('loggedInUser'))
-    const token = `bearer ${user.token}`
-    const config = {
-      headers: { Authorization: token }
-    }
     e.preventDefault()
     if (e.target.outerText === '<' ) {
       const newManga = { ...manga, chapter: manga.chapter-=1 }
-      axios.put(`${baseUrl}/user`, newManga, config)
+      axios.put(baseUrl, newManga, config)
         .then(res => {
           setManga(res.data)
           data.alert(`${res.data.title} moved to previous chapter`)
@@ -33,7 +34,7 @@ const TableSingle = (data) => {
         })
     } else if (e.target.outerText === '>' ) {
       const newManga = { ...manga, chapter: manga.chapter+=1, lastRead: new Date() }
-      axios.put(`${baseUrl}/user`, newManga, config)
+      axios.put(baseUrl, newManga, config)
         .then(res => {
           setManga(res.data)
           data.alert(`${res.data.title} moved to next chapter`)
@@ -47,9 +48,9 @@ const TableSingle = (data) => {
 
   const handleFilterChange = (e) => {
     e.preventDefault()
-    if (window.confirm(`Are you sure you want to mark ${manga.title} as ${e.target.value}`)) {
+    if (window.confirm(`Are you sure you want to mark ${manga.manga.title} as ${e.target.value}`)) {
       const newManga = { ...manga, status: e.target.value }
-      axios.put(`${baseUrl}/${manga.id}`, newManga)
+      axios.put(baseUrl, newManga, config)
         .then(res => {
           setManga(res.data)
         })
