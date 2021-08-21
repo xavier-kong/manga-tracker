@@ -11,7 +11,7 @@ const TableSingle = (data) => {
   
   useEffect(() => {
     setManga(data.manga)
-  },[data])
+  },[data, manga])
 
   const buttonHandler = (e) => {
     const user = JSON.parse(localStorage.getItem('loggedInUser'))

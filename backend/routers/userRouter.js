@@ -7,7 +7,7 @@ userRouter.get('/mangas', async (req, res) => {
 
 userRouter.put('/', async (req,res) => {
   const user = req.user
-  const mangaIndex = await user.mangas.findIndex(manga => String(manga._id) === String(req.body.id))
+  const mangaIndex = await user.mangas.findIndex(manga => String(manga._id) === String(req.body._id))
   if (req.body.status) {
     user.mangas[mangaIndex].status = req.body.status
   }
