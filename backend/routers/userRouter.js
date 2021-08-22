@@ -5,6 +5,10 @@ userRouter.get('/mangas', async (req, res) => {
   res.json(req.user)
 })
 
+userRouter.get('/verify', async (req, res) => {
+  res.json('token is valid')
+})
+
 userRouter.put('/', async (req,res) => {
   const user = req.user
   const mangaIndex = await user.mangas.findIndex(manga => String(manga._id) === String(req.body._id))

@@ -1,14 +1,24 @@
 import React, { useState, useEffect } from 'react'
 import MangaTable from './components/MangaTable'
 import Login from './components/Login'
+import axios from 'axios'
 
 const App = () => {
   const [ user, setUser ] = useState(null)
 
   useEffect(() => {
     const userJSON = localStorage.getItem('loggedInUser')
-    if (userJSON) {
+    try {
+      const user = JSON.parse(localStorage.getItem('loggedInUser'))
+      const token = `bearer ${user.token}`
+      const config = {
+      headers: { Authorization: token }
+      }
+      axios.get('http://localhost:3001/api/user/verify', config)
       setUser(JSON.parse(userJSON))
+    } catch (e) {
+      console.log(e)
+      setUser(null)
     }
   }, []) //implement token based later
 
