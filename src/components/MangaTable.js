@@ -24,12 +24,12 @@ const MangaTable = () => {
   }, [filter])
 
   const onAdd = (manga) => {
-    // axios.post(baseUrl, manga)
-    //   .then(res => {
-    //     const newManga = res.data
-    //     setData(data.concat(newManga))
-    //     notificationHandler(`Added new manga ${newManga.title}`, setMessage)
-    //   })
+    axios.post('http://localhost:3001/api/manga', manga)
+      .then(res => {
+        const newManga = res.data
+        setData(data.concat(newManga))
+        notificationHandler(`Added new manga ${newManga.title}`, setMessage)
+      })
   }
 
   const notificationHandler = (message) => {
