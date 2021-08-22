@@ -11,6 +11,12 @@ const MangaTable = () => {
   const [ filter, setFilter ] = useState('reading')
   const [ message, setMessage ] = useState('')
 
+  const user = JSON.parse(localStorage.getItem('loggedInUser'))
+  const token = `bearer ${user.token}`
+  const config = {
+    headers: { Authorization: token }
+  } //refactor to services
+
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem('loggedInUser'))
     const token = `bearer ${user.token}`
@@ -24,11 +30,10 @@ const MangaTable = () => {
   }, [filter])
 
   const onAdd = (manga) => {
-    axios.post('http://localhost:3001/api/manga', manga)
+    axios.post('http://localhost:3001/api/manga', manga, config)
       .then(res => {
-        const newManga = res.data
-        setData(data.concat(newManga))
-        notificationHandler(`Added new manga ${newManga.title}`, setMessage)
+        setData(res.data.mangas)
+        notificationHandler(`Added new manga ${manga.title}`, setMessage)
       })
   }
 
