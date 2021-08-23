@@ -14,14 +14,10 @@ const App = () => {
     headers: { Authorization: token }
     }
     const test = axios.get('http://localhost:3001/api/user/verify', config)
-      .then(res => res)
       .then(res => res.data)
-    //console.log('test', test)
-    if (test === 'valid') {
-      console.log('yay')
+    if (test === 'valid') { //have to figure out why test promise is still pending
       setUser(JSON.parse(userJSON))
     } else {
-      console.log('boo', test)
       setUser(null)
     }
   }, []) //implement token based later
