@@ -8,16 +8,20 @@ const App = () => {
 
   useEffect(() => {
     const userJSON = localStorage.getItem('loggedInUser')
-    try {
-      const user = JSON.parse(localStorage.getItem('loggedInUser'))
-      const token = `bearer ${user.token}`
-      const config = {
-      headers: { Authorization: token }
-      }
-      axios.get('http://localhost:3001/api/user/verify', config)
+    const tempUser = JSON.parse(userJSON)
+    const token = `bearer ${tempUser.token}`
+    const config = {
+    headers: { Authorization: token }
+    }
+    const test = axios.get('http://localhost:3001/api/user/verify', config)
+      .then(res => res)
+      .then(res => res.data)
+    //console.log('test', test)
+    if (test === 'valid') {
+      console.log('yay')
       setUser(JSON.parse(userJSON))
-    } catch (e) {
-      console.log(e)
+    } else {
+      console.log('boo', test)
       setUser(null)
     }
   }, []) //implement token based later

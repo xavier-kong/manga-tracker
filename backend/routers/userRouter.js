@@ -6,7 +6,7 @@ userRouter.get('/mangas', async (req, res) => {
 })
 
 userRouter.get('/verify', async (req, res) => {
-  res.json('token is valid')
+  res.json('valid')
 })
 
 userRouter.put('/', async (req,res) => {
