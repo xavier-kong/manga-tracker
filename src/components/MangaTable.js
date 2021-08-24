@@ -46,7 +46,6 @@ const MangaTable = () => {
   return (
     <>
     <div>
-      <Notifications message={message}/>
       <div>
         <button onClick={() => (setFilter('reading'))}>Reading</button>
         <button onClick={() => (setFilter('to start'))}>To start</button>
@@ -54,7 +53,7 @@ const MangaTable = () => {
         <button onClick={() => (setFilter(''))}>All</button>
         &nbsp; currently viewing: &nbsp; {filter ? filter : "All"}
       </div>
-      <table width='60%'>
+      <table width='80%'>
         <tbody>
         <tr>
           <th><h3>Title</h3></th>
@@ -73,7 +72,7 @@ const MangaTable = () => {
     </div>
     <div>
       <br />
-      <AddMangaForm add={onAdd}/>
+      <AddMangaForm add={onAdd}/><Notifications message={message}/>
     </div>
     </>
   )

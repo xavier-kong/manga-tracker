@@ -23,6 +23,7 @@ const TableSingle = (data) => {
     e.preventDefault()
     if (e.target.outerText === '<' ) {
       const newManga = { ...manga, chapter: manga.chapter-=1 }
+      setManga(newManga)
       axios.put(baseUrl, newManga, config)
         .then(res => {
           setManga(res.data)
@@ -34,6 +35,7 @@ const TableSingle = (data) => {
         })
     } else if (e.target.outerText === '>' ) {
       const newManga = { ...manga, chapter: manga.chapter+=1, lastRead: new Date() }
+      setManga(newManga)
       axios.put(baseUrl, newManga, config)
         .then(res => {
           setManga(res.data)
