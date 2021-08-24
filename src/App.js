@@ -8,19 +8,13 @@ const App = () => {
 
   useEffect(() => {
     const userJSON = localStorage.getItem('loggedInUser')
-    const tempUser = JSON.parse(userJSON)
-    const token = `bearer ${tempUser.token}`
     const config = {
-    headers: { Authorization: token }
-    }
-    const test = axios.get('http://localhost:3001/api/user/verify', config)
-      .then(res => res.data)
-    if (test === 'valid') { //have to figure out why test promise is still pending
-      setUser(JSON.parse(userJSON))
-    } else {
-      setUser(null)
-    }
-  }, []) //implement token based later
+      headers: { Authorization: `bearer ${(JSON.parse(userJSON)).token}` }
+      }
+    axios.get('http://localhost:3001/api/user/verify', config).then(res => {
+      res.data === 'valid' ? setUser(JSON.parse(userJSON)) : setUser(null)
+    })
+  }, [])
 
   const login = () => {
     const userJSON = localStorage.getItem('loggedInUser')
