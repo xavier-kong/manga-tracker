@@ -61,7 +61,6 @@ const MangaTable = () => {
           <th><h3>Last Read</h3></th>
           <th><h3>Current</h3></th>
           <th>Link</th>
-          <th>Open next 3</th>
           <th>Status</th>
         </tr>
         {data

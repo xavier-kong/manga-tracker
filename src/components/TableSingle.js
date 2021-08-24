@@ -89,8 +89,7 @@ const TableSingle = (data) => {
           &nbsp;{manga.chapter}&nbsp;
           <button onClick={buttonHandler}>{'>'}</button>
         </td>
-        <td><a href={String(manga.link)}>Go</a></td>
-        <td><button>open</button></td>
+        <td><a href={String(manga.link)}>Go</a>  <button>update</button></td>
         <td>
           <select onChange={handleFilterChange}>
             {<option value={manga.status}>{manga.status}</option>}

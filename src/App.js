@@ -4,7 +4,7 @@ import Login from './components/Login'
 import axios from 'axios'
 
 const App = () => {
-  const [ user, setUser ] = useState(null)
+  const [ user, setUser ] = useState('loading...')
 
   useEffect(() => {
     const userJSON = localStorage.getItem('loggedInUser')
@@ -30,7 +30,7 @@ const App = () => {
 
   return (
   <>
-    {!user  ? <Login onLogin={login}/> :
+    {!user  ? <Login onLogin={login}/> : user === 'loading...' ? <p>{user}</p> :
     <div>
       <h1>Manga Tracker</h1>
       <p>Logged in as 'user name' <button onClick={() => (logout())}>logout</button></p>

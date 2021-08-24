@@ -26,6 +26,8 @@ const AddMangaForm = ({ add }) => {
       title: title.value,
       link: link.value
     })
+    title.onSubmit()
+    link.onSubmit()
     setVisible(!visible)
   }
   

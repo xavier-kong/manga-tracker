@@ -7,10 +7,15 @@ const useField = (type) => {
     setValue(event.target.value)
   }
 
+  const onSubmit = () => {
+    setValue('')
+  }
+
   return {
     type,
     value,
-    onChange
+    onChange,
+    onSubmit
   }
 }
 
