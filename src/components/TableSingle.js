@@ -7,6 +7,7 @@ const style = {
 
 const TableSingle = (data) => {
   const [ manga, setManga ] = useState('')
+  const [ visible, setVisible ] = useState(false)
   const baseUrl = 'http://localhost:3001/api/user'
   
   useEffect(() => {
@@ -82,6 +83,11 @@ const TableSingle = (data) => {
     }
   } 
 
+  const visibility = (e) => {
+    e.preventDefault()
+    setVisible(!visible)
+  }
+
   return (
       <tr style={style}>
         <td>{manga.manga ? manga.manga.title : 'none'}</td>
@@ -91,7 +97,7 @@ const TableSingle = (data) => {
           &nbsp;{manga.chapter}&nbsp;
           <button onClick={buttonHandler}>{'>'}</button>
         </td>
-        <td><a href={String(manga.link)}>Go</a>  <button>update</button></td>
+        <td><a href={String(manga.link)}>Go</a>  <button onClick={visibility}>update</button></td>
         <td>
           <select onChange={handleFilterChange}>
             {<option value={manga.status}>{manga.status}</option>}
@@ -99,6 +105,9 @@ const TableSingle = (data) => {
             {manga.status === 'finished' ? null : <option value={'finished'}>finished</option>}
             {manga.status === 'to start' ? null : <option value={'to start'}>to start</option>}
           </select>
+        </td>
+        <td>
+        {visible ? <p>the world</p> : null}
         </td>
       </tr>
   )

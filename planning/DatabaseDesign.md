@@ -1,3 +1,34 @@
+Version 3:
+Further work on the project revealed that a seperate database for mangas would not be needed and could even be redundant. The only reason for keeping it in the first place was that I was planning for a feature where the links would update according to chapter number but that was not feasible due to some websites not organizing chapter urls in a ordered fashion. 
+
+With these new developments, a new design was proposed:
+```
+User: {
+  name: String,
+  username: {
+    type: String,
+    unique: true,
+    required: true,
+    minLength: 3
+  },
+  password: String, <- hashed (not returned)
+  mangas: [{
+    title: {
+      type: String,
+      required: true,
+      minLength: 1
+    },
+    link: String,
+    id: Number,
+    chapter: Number,
+    lastRead: String
+    status: String
+  }]
+}
+```
+While there may be concerns on the 16mb document size limit for mongoDB, it is unlikely that a single user could add 10,000+ titles within the limits of practicality. However, using SQL database options like postgresql could solve this issue if it becomes significant. 
+
+
 Version 2:
 After working on the project, I saw that Version 1 's limitations would lead to overcomplicating server side operations. Other database options such as postgresql were considered but were ruled out due to being "overkill" for the task at hand. Nosql document based options such as mongoDB would still be applicable. A new schema was proposed:
 
