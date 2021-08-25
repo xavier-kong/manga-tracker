@@ -20,4 +20,4 @@ mangaSchema.set('toJSON', {
   }
 })
 
-module.exports = mongoose.model('Manga', mangaSchema)
+// module.exports = mongoose.model('Manga', mangaSchema)
