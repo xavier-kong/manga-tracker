@@ -10,11 +10,11 @@ mangaRouter.get('/', async (req, res) => {
 mangaRouter.post('/', async (req, res) => {
   const user = req.user
   const mangaIndex = await user.mangas.findIndex(manga => String(manga.title) === String(req.body.title))
-  if (mangaIndex) {
+  if (mangaIndex !== -1 && user.mangas.length >= 0) {
     res.json('manga already exists')
-  } else if (!mangaIndex) {
+  } else if (mangaIndex === -1) {
     const body = req.body
-    user.mangas.concat(
+    user.mangas = user.mangas.concat(
       {
         title: body.title,
         link: body.link,
@@ -26,29 +26,7 @@ mangaRouter.post('/', async (req, res) => {
     await user.save()
     const updatedUser = await User.findById(req.user._id)
     res.json(updatedUser.mangas)
-    
   }
-
-
-  // const manga = await Manga.findOne({ title: req.body.title })
-  // if (manga) {
-  //   const mangaInUser = await user.mangas.filter(single => String(single.mangaId) === String(manga._id))
-  //   if (mangaInUser.length === 1) {
-  //     res.json({ error: 'user already added manga to collection'})
-  //   } else if (mangaInUser.length === 0) {
-  //     user.mangas = user.mangas.concat(mangaObjGen(manga))
-  //     await user.save()
-  //     const updatedUser = await User.findById(req.user._id).populate('mangas.manga')
-  //     res.json(updatedUser)
-  //   } 
-  // } else if (!manga) {
-  //   const newManga = new Manga(req.body)
-  //   const savedManga = await newManga.save()
-  //   user.mangas = user.mangas.concat(mangaObjGen(savedManga))
-  //   await user.save()
-  //   const updatedUser = await User.findById(req.user._id).populate('mangas.manga')
-  //   res.json(updatedUser)
-  // }
 })
 
 module.exports = mangaRouter
