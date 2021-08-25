@@ -19,4 +19,8 @@ usersRouter.post('/', async (req, res) => {
   res.json(savedUser)
 })
 
+usersRouter.get('/verify', async (req, res) => {
+  res.json('valid')
+})
+
 module.exports = usersRouter
