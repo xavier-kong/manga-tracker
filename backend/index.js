@@ -6,7 +6,7 @@ const morgan = require('morgan')
 const loginRouter= require('./routers/loginRouter')
 const mangaRouter= require('./routers/mangaRouter')
 const usersRouter= require('./routers/usersRouter')
-const userRouter= require('./routers/userRouter')
+const verifyRouter= require('./routers/verifyRouter')
 const middleware = require('./utils/middleware')
 
 require('dotenv').config()
@@ -32,7 +32,7 @@ app.use(middleware.userExtractor)
 app.use('/api/manga', mangaRouter)
 app.use('/api/login', loginRouter)
 app.use('/api/users', usersRouter)
-app.use('/api/user', userRouter)
+app.use('/api/verify', verifyRouter)
 
 app.use(middleware.unknownEndpoint)
 
