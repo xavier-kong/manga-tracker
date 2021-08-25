@@ -1,10 +1,8 @@
 const mangaRouter = require('express').Router()
-//const Manga = require('../models/manga')
 const User = require('../models/user')
 
 mangaRouter.get('/', async (req, res) => {
-  // const mangas = await Manga.find({})
-  res.json(req.user.mangas) //dont even know if this is still needed?
+  res.json(req.user.mangas)
 })
 
 mangaRouter.post('/', async (req, res) => {
