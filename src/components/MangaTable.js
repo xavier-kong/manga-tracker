@@ -23,16 +23,15 @@ const MangaTable = () => {
     const config = {
       headers: { Authorization: token }
     }
-    axios.get('http://localhost:3001/api/user/mangas', config).then(res =>{
-      const newData = res.data
-      setData(newData.mangas)
+    axios.get('http://localhost:3001/api/manga', config).then(res =>{
+      setData(res.data)
     })
   }, [filter])
 
   const onAdd = (manga) => {
     axios.post('http://localhost:3001/api/manga', manga, config)
       .then(res => {
-        setData(res.data.mangas)
+        setData(res.data)
         notificationHandler(`Added new manga ${manga.title}`, setMessage)
       })
   }

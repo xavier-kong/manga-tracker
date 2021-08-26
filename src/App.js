@@ -11,9 +11,13 @@ const App = () => {
     const config = {
       headers: { Authorization: `bearer ${(JSON.parse(userJSON)).token}` }
       }
-    axios.get('http://localhost:3001/api/user/verify', config).then(res => {
+    axios
+      .get('http://localhost:3001/api/users/verify', config)
+      .then(res => {
       res.data === 'valid' ? setUser(JSON.parse(userJSON)) : setUser(null)
     })
+      .catch(e => {
+        setUser(null)})
   }, [])
 
   const login = () => {

@@ -8,7 +8,7 @@ const style = {
 const TableSingle = (data) => {
   const [ manga, setManga ] = useState('')
   const [ visible, setVisible ] = useState(false)
-  const baseUrl = 'http://localhost:3001/api/user'
+  const baseUrl = 'http://localhost:3001/api/manga'
   
   useEffect(() => {
     !manga ? setManga(data.manga) : setManga(manga)
@@ -51,7 +51,7 @@ const TableSingle = (data) => {
 
   const handleFilterChange = (e) => {
     e.preventDefault()
-    if (window.confirm(`Are you sure you want to mark ${manga.manga.title} as ${e.target.value}`)) {
+    if (window.confirm(`Are you sure you want to mark ${manga.title} as ${e.target.value}`)) {
       const newManga = { ...manga, status: e.target.value }
       axios.put(baseUrl, newManga, config)
         .then(res => {
@@ -90,7 +90,7 @@ const TableSingle = (data) => {
 
   return (
       <tr style={style}>
-        <td>{manga.manga ? manga.manga.title : 'none'}</td>
+        <td>{manga.title || 'none'}</td>
         <td>{dateHandler(manga.lastRead)}</td>
         <td>
           <button onClick={buttonHandler}>{'<'}</button>
