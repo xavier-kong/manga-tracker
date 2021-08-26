@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import useField from '../hooks/useField'
 import axios from 'axios'
 
 const style = {
@@ -8,6 +9,7 @@ const style = {
 const TableSingle = (data) => {
   const [ manga, setManga ] = useState('')
   const [ visible, setVisible ] = useState(false)
+  const link = useField('text')
   const baseUrl = 'http://localhost:3001/api/manga'
   
   useEffect(() => {
@@ -88,6 +90,20 @@ const TableSingle = (data) => {
     setVisible(!visible)
   }
 
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    const newManga = { ...manga, link: link.value }
+      axios.put(baseUrl, newManga, config)
+        .then(res => {
+          setManga(res.data)
+          link.onSubmit()
+          setVisible(!visible)
+        })
+        .catch(e => {
+          console.log(e)
+        })
+  }
+
   return (
       <tr style={style}>
         <td>{manga.title || 'none'}</td>
@@ -97,7 +113,21 @@ const TableSingle = (data) => {
           &nbsp;{manga.chapter}&nbsp;
           <button onClick={buttonHandler}>{'>'}</button>
         </td>
-        <td><a href={String(manga.link)}>Go</a>  <button onClick={visibility}>update</button></td>
+        <td>
+          {!visible ?
+          <>
+           <a href={String(manga.link)}>Go</a>  
+           <button onClick={visibility}>Update</button>
+          </> :
+          <>
+            <form onSubmit={handleSubmit}>
+              link: <input {...link} />
+              <button type='submit'>Update</button>
+              <button onClick={visibility}>Cancel</button>
+            </form>
+          </>
+          }
+        </td>
         <td>
           <select onChange={handleFilterChange}>
             {<option value={manga.status}>{manga.status}</option>}
@@ -107,7 +137,6 @@ const TableSingle = (data) => {
           </select>
         </td>
         <td>
-        {visible ? <p>the world</p> : null}
         </td>
       </tr>
   )
