@@ -3,6 +3,7 @@ import TableSingle from './TableSingle'
 import AddMangaForm from './AddMangaForm'
 import Notifications from './Notifications'
 import axios from 'axios'
+import StatsToggle from './StatsToggle'
 
 let denotifyTimeout = 0
 
@@ -73,6 +74,7 @@ const MangaTable = () => {
     <div>
       <br />
       <AddMangaForm add={onAdd}/><Notifications message={message}/>
+      <StatsToggle data={data}/>
     </div>
     </>
   )
