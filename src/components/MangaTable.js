@@ -24,9 +24,9 @@ const MangaTable = () => {
       headers: { Authorization: token }
     }
     axios.get('http://localhost:3001/api/manga', config).then(res =>{
-      setData(res.data)
+        setData(res.data)
     })
-  }, [filter])
+  }, [filter,  message])
 
   const onAdd = (manga) => {
     axios.post('http://localhost:3001/api/manga', manga, config)
