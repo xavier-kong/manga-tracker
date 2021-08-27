@@ -134,6 +134,7 @@ const TableSingle = (data) => {
             {manga.status === 'reading' ? null : <option value={'reading'}>reading</option>}
             {manga.status === 'finished' ? null : <option value={'finished'}>finished</option>}
             {manga.status === 'to start' ? null : <option value={'to start'}>to start</option>}
+            {manga.status === 'on hold' ? null : <option value={'on hold'}>on hold</option>}
           </select>
         </td>
         <td>

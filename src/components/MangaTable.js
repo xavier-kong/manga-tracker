@@ -49,6 +49,7 @@ const MangaTable = () => {
         <button onClick={() => (setFilter('reading'))}>Reading</button>
         <button onClick={() => (setFilter('to start'))}>To start</button>
         <button onClick={() => (setFilter('finished'))}>Finished</button>
+        <button onClick={() => (setFilter('on hold'))}>On hold</button>
         <button onClick={() => (setFilter(''))}>All</button>
         &nbsp; currently viewing: &nbsp; {filter ? filter : "All"}
       </div>
