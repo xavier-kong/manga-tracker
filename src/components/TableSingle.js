@@ -58,7 +58,7 @@ const TableSingle = (data) => {
       axios.put(baseUrl, newManga, config)
         .then(res => {
           setManga(res.data)
-          data.alert(`${manga.title} set to ${e.target.value}`)
+          data.alert(`Setting ${manga.title} status to ${e.target.value}`)
         })
         .catch(e => {
           console.log(e)
