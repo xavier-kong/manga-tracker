@@ -19,7 +19,8 @@
     "server": "cd ./backend && npm run dev",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "lint": "eslint ."
   },
   "eslintConfig": {
     "extends": [
@@ -40,6 +41,9 @@
     ]
   },
   "devDependencies": {
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.24.2",
     "json-server": "^0.16.3"
   },
   "proxy": "http://localhost:3001"
