@@ -1,109 +1,111 @@
-import React, { useState, useEffect } from 'react'
-import useField from '../hooks/useField'
-import axios from 'axios'
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import useField from '../hooks/useField';
 
 const style = {
-  textAlign: "center" 
-}
+  textAlign: 'center',
+};
 
 const TableSingle = (data) => {
-  const [ manga, setManga ] = useState('')
-  const [ visible, setVisible ] = useState(false)
-  const link = useField('text')
-  const baseUrl = 'http://localhost:3001/api/manga'
-  
-  useEffect(() => {
-    !manga ? setManga(data.manga) : setManga(manga)
-  },[data, manga])
+  const [manga, setManga] = useState('');
+  const [visible, setVisible] = useState(false);
+  const link = useField('text');
+  const baseUrl = 'http://localhost:3001/api/manga';
 
-  const user = JSON.parse(localStorage.getItem('loggedInUser'))
-  const token = `bearer ${user.token}`
+  useEffect(() => {
+    if (!manga) {
+      setManga(data.manga);
+    } else {
+      setManga(manga);
+    }
+    // !manga ? setManga(data.manga) : setManga(manga);
+  }, [data, manga]);
+
+  const user = JSON.parse(localStorage.getItem('loggedInUser'));
+  const token = `bearer ${user.token}`;
   const config = {
-    headers: { Authorization: token }
-  }
+    headers: { Authorization: token },
+  };
 
   const buttonHandler = (e) => {
-    e.preventDefault()
-    if (e.target.outerText === '<' ) {
-      const newManga = { ...manga, chapter: manga.chapter-=1 }
-      setManga(newManga)
+    e.preventDefault();
+    if (e.target.outerText === '<') {
+      const newManga = { ...manga, chapter: manga.chapter -= 1 };
+      setManga(newManga);
       axios.put(baseUrl, newManga, config)
-        .then(res => {
-          setManga(res.data)
-          data.alert(`${res.data.title} moved to previous chapter`)
+        .then((res) => {
+          setManga(res.data);
+          data.alert(`${res.data.title} moved to previous chapter`);
         })
-        .catch(e => {
-          data.alert(`Error: ${e}`)
-          console.log(e)
-        })
-    } else if (e.target.outerText === '>' ) {
-      const newManga = { ...manga, chapter: manga.chapter+=1, lastRead: new Date() }
-      setManga(newManga)
+        .catch((error) => {
+          data.alert(`Error: ${error}`);
+        });
+    } else if (e.target.outerText === '>') {
+      const newManga = { ...manga, chapter: manga.chapter += 1, lastRead: new Date() };
+      setManga(newManga);
       axios.put(baseUrl, newManga, config)
-        .then(res => {
-          setManga(res.data)
-          data.alert(`${res.data.title} moved to next chapter`)
+        .then((res) => {
+          setManga(res.data);
+          data.alert(`${res.data.title} moved to next chapter`);
         })
-        .catch(e => {
-          data.alert(`Error: ${e}`)
-          console.log(e)
-        })
+        .catch((error) => {
+          data.alert(`Error: ${error}`);
+        });
     }
-  }
+  };
 
   const handleFilterChange = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     if (window.confirm(`Are you sure you want to mark ${manga.title} as ${e.target.value}`)) {
-      const newManga = { ...manga, status: e.target.value }
+      const newManga = { ...manga, status: e.target.value };
       axios.put(baseUrl, newManga, config)
-        .then(res => {
-          setManga(res.data)
-          data.alert(`Setting ${manga.title} status to ${e.target.value}`)
+        .then((res) => {
+          setManga(res.data);
+          data.alert(`Setting ${manga.title} status to ${e.target.value}`);
         })
-        .catch(e => {
-          console.log(e)
-        })
+        .catch((error) => {
+          data.alert(`Error: ${error}`);
+        });
     }
-  }
+  };
 
   const dateHandler = (date) => {
-    const now = new Date()
-    const last = new Date(date)
-    const dateSeconds = (last).getTime()
-    const s = ( now.getTime() - dateSeconds ) / 1000 //seconds
+    const now = new Date();
+    const last = new Date(date);
+    const dateSeconds = (last).getTime();
+    const s = (now.getTime() - dateSeconds) / 1000; // seconds
     if (s < 60) {
-      return "just now"
-    } else if (s < 60*60) {
-      return `${Math.floor(s/60)} minute(s) ago`
-    } else if (s < 60*60*24) {
-      return `${Math.floor(s/(60*60))} hour(s) ago`
-    } else if (s < 60*60*24*30) {
-      return `${Math.floor(s/(60*60*24))} day(s) ago`
-    } else if (s < 60*60*24*30*12) {
-      return `${Math.floor(s/(60*60*24*30))} month(s) ago`
-    } else {
-      return `${Math.floor(s/(60*60*24*30*12))} year(s) ago`
+      return 'just now';
+    } if (s < 60 * 60) {
+      return `${Math.floor(s / 60)} minute(s) ago`;
+    } if (s < 60 * 60 * 24) {
+      return `${Math.floor(s / (60 * 60))} hour(s) ago`;
+    } if (s < 60 * 60 * 24 * 30) {
+      return `${Math.floor(s / (60 * 60 * 24))} day(s) ago`;
+    } if (s < 60 * 60 * 24 * 30 * 12) {
+      return `${Math.floor(s / (60 * 60 * 24 * 30))} month(s) ago`;
     }
-  } 
+    return `${Math.floor(s / (60 * 60 * 24 * 30 * 12))} year(s) ago`;
+  };
 
   const visibility = (e) => {
-    e.preventDefault()
-    setVisible(!visible)
-  }
+    e.preventDefault();
+    setVisible(!visible);
+  };
 
   const handleSubmit = (e) => {
-    e.preventDefault()
-    const newManga = { ...manga, link: link.value }
-      axios.put(baseUrl, newManga, config)
-        .then(res => {
-          setManga(res.data)
-          link.onSubmit()
-          setVisible(!visible)
-        })
-        .catch(e => {
-          console.log(e)
-        })
-  }
+    e.preventDefault();
+    const newManga = { ...manga, link: link.value };
+    axios.put(baseUrl, newManga, config)
+      .then((res) => {
+        setManga(res.data);
+        link.onSubmit();
+        setVisible(!visible);
+      })
+      .catch((error) => {
+        data.alert(`Error: ${error}`);
+      });
+  };
 
   return (
       <tr style={style}>
@@ -115,12 +117,12 @@ const TableSingle = (data) => {
           <button onClick={buttonHandler}>{'>'}</button>
         </td>
         <td>
-          {!visible ?
-          <>
-           <a href={String(manga.link)}>Go</a>  
+          {!visible
+            ? <>
+           <a href={String(manga.link)}>Go</a>
            <button onClick={visibility}>Update</button>
-          </> :
-          <>
+          </>
+            : <>
             <form onSubmit={handleSubmit}>
               link: <input {...link} />
               <button type='submit'>Update</button>
@@ -141,7 +143,7 @@ const TableSingle = (data) => {
         <td>
         </td>
       </tr>
-  )
-}
+  );
+};
 
-export default TableSingle
+export default TableSingle;

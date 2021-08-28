@@ -1,43 +1,44 @@
-import React from 'react'
-import useField from '../hooks/useField'
-const axios = require('axios')
+import React from 'react';
+import useField from '../hooks/useField';
+
+const axios = require('axios');
 
 const Login = ({ onLogin }) => {
-  const username = useField('text')
-  const password = useField('password')
+  const username = useField('text');
+  const password = useField('password');
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     try {
       const response = await axios.post('http://localhost:3001/api/login', {
-      username: username.value,
-      password: password.value
-      })
+        username: username.value,
+        password: password.value,
+      });
       window.localStorage.setItem(
-        'loggedInUser', JSON.stringify(response.data)
-      )
-      onLogin()
-    } catch (e) { 
-      console.log(e)
+        'loggedInUser', JSON.stringify(response.data),
+      );
+      onLogin();
+    } catch (e) {
+      console.log(e);
     }
-  }
+  };
 
-  //change later 
+  // change later
 
   return (
     <div>
       <h1>Login</h1>
       <form onSubmit={handleSubmit}>
-        username: 
+        username:
         <input {...username} />
         <br />
-        password: 
+        password:
         <input {...password} />
         <br />
         <button type='submit'>Login</button>
       </form>
     </div>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;

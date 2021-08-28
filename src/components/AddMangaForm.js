@@ -1,52 +1,52 @@
-import React, { useState } from 'react'
-import useField from '../hooks/useField'
+import React, { useState } from 'react';
+import useField from '../hooks/useField';
 
 const AddMangaForm = ({ add }) => {
-  const [ visible, setVisible ] = useState(false)
-  const title = useField('text')
-  const link = useField('text')
+  const [visible, setVisible] = useState(false);
+  const title = useField('text');
+  const link = useField('text');
 
   const ShowButton = () => {
     const showHandler = (event) => {
-      event.preventDefault()
-      setVisible(!visible)
-    }
+      event.preventDefault();
+      setVisible(!visible);
+    };
     return (
-      <button 
-        onClick={showHandler} 
-        style={{height: '25px', width : '90px'}}>
+      <button
+        onClick={showHandler}
+        style={{ height: '25px', width: '90px' }}>
           {visible ? 'Close' : 'Add Manga'}
       </button>
-    )
-  }
+    );
+  };
 
   const handleSubmit = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     add({
       title: title.value,
-      link: link.value
-    })
-    title.onSubmit()
-    link.onSubmit()
-    setVisible(!visible)
-  }
-  
+      link: link.value,
+    });
+    title.onSubmit();
+    link.onSubmit();
+    setVisible(!visible);
+  };
+
   return (
     <div>
       <ShowButton />
-      {!visible ? 
-      null:
-      <form onSubmit={handleSubmit}>
-        title: 
+      {!visible
+        ? null
+        : <form onSubmit={handleSubmit}>
+        title:
         <input {...title} />
         <br />
-        link: 
+        link:
         <input {...link} />
         <button type='submit'>Add</button>
       </form>
       }
     </div>
-  )
-}
+  );
+};
 
-export default AddMangaForm
+export default AddMangaForm;
