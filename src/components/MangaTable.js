@@ -19,15 +19,21 @@ const MangaTable = () => {
   }; // refactor to services
 
   useEffect(() => {
-    const user = JSON.parse(localStorage.getItem('loggedInUser'));
-    const token = `bearer ${user.token}`;
-    const config = {
-      headers: { Authorization: token },
-    };
+    // const user = JSON.parse(localStorage.getItem('loggedInUser'));
+    // const token = `bearer ${user.token}`;
+    // const config = {
+    //   headers: { Authorization: token },
+    // };
     axios.get('http://localhost:3001/api/manga', config).then((res) => {
       setData(res.data);
     });
   }, [filter, message]);
+
+  const notificationHandler = (notif) => {
+    clearTimeout(denotifyTimeout);
+    denotifyTimeout = setTimeout(() => { setMessage(''); }, 2500);
+    setMessage(notif);
+  };
 
   const onAdd = (manga) => {
     axios.post('http://localhost:3001/api/manga', manga, config)
@@ -35,12 +41,6 @@ const MangaTable = () => {
         setData(res.data);
         notificationHandler(`Added new manga ${manga.title}`, setMessage);
       });
-  };
-
-  const notificationHandler = (message) => {
-    clearTimeout(denotifyTimeout);
-    denotifyTimeout = setTimeout(() => { setMessage(''); }, 2500);
-    setMessage(message);
   };
 
   return (
@@ -65,7 +65,12 @@ const MangaTable = () => {
         </tr>
         {data
           .filter((manga) => manga.status.includes(filter))
-          .map((manga) => <TableSingle manga={manga} key={manga._id} alert={(message) => notificationHandler(message)}/>)}
+          .map((manga) => <TableSingle
+            manga={manga}
+            key={manga._id}
+            alert={(mssg) => notificationHandler(mssg)}
+            />)
+          }
         </tbody>
       </table>
     </div>

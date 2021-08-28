@@ -14,7 +14,12 @@ const App = () => {
     axios
       .get('http://localhost:3001/api/users/verify', config)
       .then((res) => {
-        res.data === 'valid' ? setUser(JSON.parse(userJSON)) : setUser(null);
+        if (res.data === 'valid') {
+          setUser(JSON.parse(userJSON));
+        } else {
+          setUser(null);
+        }
+        // res.data === 'valid' ? setUser(JSON.parse(userJSON)) : setUser(null);
       })
       .catch((e) => {
         setUser(null);

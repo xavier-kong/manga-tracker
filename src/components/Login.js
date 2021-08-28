@@ -18,7 +18,7 @@ const Login = ({ onLogin }) => {
         'loggedInUser', JSON.stringify(response.data),
       );
       onLogin();
-    } catch (e) {
+    } catch (error) {
       console.log(e);
     }
   };
