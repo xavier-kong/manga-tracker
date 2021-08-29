@@ -1,0 +1,3 @@
+without valid token or no token => show login page
+on login => show main page, return token 
+on add new title => show new title in to start page, 
