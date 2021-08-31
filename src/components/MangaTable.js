@@ -57,6 +57,7 @@ const MangaTable = () => {
         </tr>
         {data
           .filter((manga) => manga.status.includes(filter))
+          .sort((a,b) => (new Date(b.lastRead).getTime() - new Date(a.lastRead).getTime())) 
           .map((manga) => <TableSingle
             manga={manga}
             key={manga._id}
