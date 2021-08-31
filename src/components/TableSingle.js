@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import useField from '../hooks/useField';
+import configGen from '../services/configGen';
+import dateHandler from '../services/dateHandler';
 
 const style = {
   textAlign: 'center',
@@ -21,11 +23,13 @@ const TableSingle = (data) => {
     // !manga ? setManga(data.manga) : setManga(manga);
   }, [data, manga]);
 
-  const user = JSON.parse(localStorage.getItem('loggedInUser'));
-  const token = `bearer ${user.token}`;
-  const config = {
-    headers: { Authorization: token },
-  };
+  // const user = JSON.parse(localStorage.getItem('loggedInUser'));
+  // const token = `bearer ${user.token}`;
+  // const config = {
+  //   headers: { Authorization: token },
+  // };
+
+  const config = configGen()
 
   const buttonHandler = (e) => {
     e.preventDefault();
@@ -69,24 +73,24 @@ const TableSingle = (data) => {
     }
   };
 
-  const dateHandler = (date) => {
-    const now = new Date();
-    const last = new Date(date);
-    const dateSeconds = (last).getTime();
-    const s = (now.getTime() - dateSeconds) / 1000; // seconds
-    if (s < 60) {
-      return 'just now';
-    } if (s < 60 * 60) {
-      return `${Math.floor(s / 60)} minute(s) ago`;
-    } if (s < 60 * 60 * 24) {
-      return `${Math.floor(s / (60 * 60))} hour(s) ago`;
-    } if (s < 60 * 60 * 24 * 30) {
-      return `${Math.floor(s / (60 * 60 * 24))} day(s) ago`;
-    } if (s < 60 * 60 * 24 * 30 * 12) {
-      return `${Math.floor(s / (60 * 60 * 24 * 30))} month(s) ago`;
-    }
-    return `${Math.floor(s / (60 * 60 * 24 * 30 * 12))} year(s) ago`;
-  };
+  // const dateHandler = (date) => {
+  //   const now = new Date();
+  //   const last = new Date(date);
+  //   const dateSeconds = (last).getTime();
+  //   const s = (now.getTime() - dateSeconds) / 1000; // seconds
+  //   if (s < 60) {
+  //     return 'just now';
+  //   } if (s < 60 * 60) {
+  //     return `${Math.floor(s / 60)} minute(s) ago`;
+  //   } if (s < 60 * 60 * 24) {
+  //     return `${Math.floor(s / (60 * 60))} hour(s) ago`;
+  //   } if (s < 60 * 60 * 24 * 30) {
+  //     return `${Math.floor(s / (60 * 60 * 24))} day(s) ago`;
+  //   } if (s < 60 * 60 * 24 * 30 * 12) {
+  //     return `${Math.floor(s / (60 * 60 * 24 * 30))} month(s) ago`;
+  //   }
+  //   return `${Math.floor(s / (60 * 60 * 24 * 30 * 12))} year(s) ago`;
+  // };
 
   const visibility = (e) => {
     e.preventDefault();

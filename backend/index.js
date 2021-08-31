@@ -29,9 +29,9 @@ app.use(morgan('tiny'));
 app.use(middleware.tokenExtractor);
 app.use(middleware.userExtractor);
 
+app.use('/api/users', usersRouter);
 app.use('/api/manga', mangaRouter);
 app.use('/api/login', loginRouter);
-app.use('/api/users', usersRouter);
 
 app.use(middleware.unknownEndpoint);
 

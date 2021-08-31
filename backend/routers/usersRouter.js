@@ -21,6 +21,7 @@ usersRouter.post('/', async (req, res) => {
 
 usersRouter.get('/verify', async (req, res) => {
   res.json('valid');
+  return;
 });
 
 module.exports = usersRouter;

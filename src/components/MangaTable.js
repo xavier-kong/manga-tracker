@@ -4,6 +4,7 @@ import TableSingle from './TableSingle';
 import AddMangaForm from './AddMangaForm';
 import Notifications from './Notifications';
 import StatsToggle from './StatsToggle';
+import configGen from '../services/configGen'
 
 let denotifyTimeout = 0;
 
@@ -12,11 +13,13 @@ const MangaTable = () => {
   const [filter, setFilter] = useState('reading');
   const [message, setMessage] = useState('');
 
-  const user = JSON.parse(localStorage.getItem('loggedInUser'));
-  const token = `bearer ${user.token}`;
-  const config = {
-    headers: { Authorization: token },
-  }; // refactor to services
+  // const user = JSON.parse(localStorage.getItem('loggedInUser'));
+  // const token = `bearer ${user.token}`;
+  // const config = {
+  //   headers: { Authorization: token },
+  // }; // refactor to services
+
+  const config = configGen()
 
   useEffect(() => {
     // const user = JSON.parse(localStorage.getItem('loggedInUser'));
@@ -24,6 +27,8 @@ const MangaTable = () => {
     // const config = {
     //   headers: { Authorization: token },
     // };
+
+    const config = configGen()
     axios.get('http://localhost:3001/api/manga', config).then((res) => {
       setData(res.data);
     });
