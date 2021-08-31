@@ -7,11 +7,12 @@ const App = () => {
   const [user, setUser] = useState('loading...');
 
   useEffect(() => {
-    const userJSON = localStorage.getItem('loggedInUser');
-    const config = {
+    try {
+      const userJSON = localStorage.getItem('loggedInUser');
+      const config = {
       headers: { Authorization: `bearer ${(JSON.parse(userJSON)).token}` },
     };
-    axios
+      axios
       .get('http://localhost:3001/api/users/verify', config)
       .then((res) => {
         if (res.data === 'valid') {
@@ -19,11 +20,14 @@ const App = () => {
         } else {
           setUser(null);
         }
-        // res.data === 'valid' ? setUser(JSON.parse(userJSON)) : setUser(null);
       })
       .catch((e) => {
         setUser(null);
       });
+    } catch {
+      setUser(null);
+    }
+    
   }, []);
 
   const login = () => {

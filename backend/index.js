@@ -25,7 +25,7 @@ app.use(express.json());
 app.use(cors());
 
 app.use(morgan('tiny'));
-
+app.use(express.static('build'))
 app.use(middleware.tokenExtractor);
 app.use(middleware.userExtractor);
 
