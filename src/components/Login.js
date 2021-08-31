@@ -23,8 +23,6 @@ const Login = ({ onLogin }) => {
     }
   };
 
-  // change later
-
   return (
     <div>
       <h1>Login</h1>

@@ -12,22 +12,9 @@ const MangaTable = () => {
   const [data, setData] = useState([]);
   const [filter, setFilter] = useState('reading');
   const [message, setMessage] = useState('');
-
-  // const user = JSON.parse(localStorage.getItem('loggedInUser'));
-  // const token = `bearer ${user.token}`;
-  // const config = {
-  //   headers: { Authorization: token },
-  // }; // refactor to services
-
   const config = configGen()
 
   useEffect(() => {
-    // const user = JSON.parse(localStorage.getItem('loggedInUser'));
-    // const token = `bearer ${user.token}`;
-    // const config = {
-    //   headers: { Authorization: token },
-    // };
-
     const config = configGen()
     axios.get('http://localhost:3001/api/manga', config).then((res) => {
       setData(res.data);
