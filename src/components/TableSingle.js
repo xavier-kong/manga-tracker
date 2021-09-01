@@ -109,6 +109,7 @@ const TableSingle = (data) => {
           </>
           }
         </td>
+        <td>Notes</td>
         <td>
           <select onChange={handleFilterChange}>
             {<option value={manga.status}>{manga.status}</option>}
