@@ -4,6 +4,7 @@ import TableSingle from './TableSingle';
 import AddMangaForm from './AddMangaForm';
 import Notifications from './Notifications';
 import StatsToggle from './StatsToggle';
+import SortSelect from './SortSelect';
 import configGen from '../services/configGen'
 
 let denotifyTimeout = 0;
@@ -35,25 +36,6 @@ const MangaTable = () => {
         notificationHandler(`Added new manga ${manga.title}`, setMessage);
       });
   };
-
-  const SortSelect = () => {
-    const handleChange = (e) => {
-      e.preventDefault()
-      setSorter(e.target.value)  
-    }
-
-    return (
-      <>
-        <label>Sort by:</label>
-        <select value={sorter} onChange={handleChange}>
-          <option value='timedes'>Time descending</option>
-          <option value='timeasc'>Time ascending</option>
-          <option value='namedes'>Name descending</option>
-          <option value='nameasc'>Name ascending</option>
-        </select>
-      </>
-    )
-  }
 
   return (
     <>
@@ -89,9 +71,9 @@ const MangaTable = () => {
     </div>
     <div>
       <br />
-      <AddMangaForm add={onAdd}/><Notifications message={message}/>
-      <StatsToggle data={data}/>
-      <SortSelect />
+      <AddMangaForm add={onAdd}/><Notifications message={message} />
+      <StatsToggle data={data} />
+      <SortSelect setSorter={setSorter} sorter={sorter} />
     </div>
     </>
   );
