@@ -6,6 +6,7 @@ import Notifications from './Notifications';
 import StatsToggle from './StatsToggle';
 import SortSelect from './SortSelect';
 import configGen from '../services/configGen'
+import sortingHandler from '../services/sortingHandler'
 
 let denotifyTimeout = 0;
 
@@ -59,7 +60,7 @@ const MangaTable = () => {
         </tr>
         {data
           .filter((manga) => manga.status.includes(filter))
-          .sort((a,b) => (new Date(b.lastRead).getTime() - new Date(a.lastRead).getTime())) 
+          .sort((a,b) => (sortingHandler(sorter, a, b))) 
           .map((manga) => <TableSingle
             manga={manga}
             key={manga._id}
