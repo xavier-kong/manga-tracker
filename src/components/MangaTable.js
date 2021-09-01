@@ -12,6 +12,7 @@ const MangaTable = () => {
   const [data, setData] = useState([]);
   const [filter, setFilter] = useState('reading');
   const [message, setMessage] = useState('');
+  const [sorter, setSorter] = useState('timedes')
   const config = configGen()
 
   useEffect(() => {
@@ -34,6 +35,25 @@ const MangaTable = () => {
         notificationHandler(`Added new manga ${manga.title}`, setMessage);
       });
   };
+
+  const SortSelect = () => {
+    const handleChange = (e) => {
+      e.preventDefault()
+      setSorter(e.target.value)  
+    }
+
+    return (
+      <>
+        <label>Sort by:</label>
+        <select value={sorter} onChange={handleChange}>
+          <option value='timedes'>Time descending</option>
+          <option value='timeasc'>Time ascending</option>
+          <option value='namedes'>Name descending</option>
+          <option value='nameasc'>Name ascending</option>
+        </select>
+      </>
+    )
+  }
 
   return (
     <>
@@ -71,6 +91,7 @@ const MangaTable = () => {
       <br />
       <AddMangaForm add={onAdd}/><Notifications message={message}/>
       <StatsToggle data={data}/>
+      <SortSelect />
     </div>
     </>
   );
