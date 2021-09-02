@@ -18,6 +18,7 @@ const userSchema = new mongoose.Schema({
     },
     link: String,
     id: Number,
+    notes: String,
     chapter: Number,
     lastRead: String,
     status: String,
