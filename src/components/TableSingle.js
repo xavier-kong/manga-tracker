@@ -11,7 +11,9 @@ const style = {
 const TableSingle = (data) => {
   const [manga, setManga] = useState('');
   const [visible, setVisible] = useState(false);
+  const [notevis, setNotevis] = useState(false);
   const link = useField('text');
+  const notes = useField('text');
   const baseUrl = 'http://localhost:3001/api/manga';
 
   useEffect(() => {
@@ -71,6 +73,11 @@ const TableSingle = (data) => {
     setVisible(!visible);
   };
 
+  const noteVisibility = (e) => {
+    e.preventDefault()
+    setNotevis(!notevis)
+  }
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const newManga = { ...manga, link: link.value };
@@ -84,6 +91,20 @@ const TableSingle = (data) => {
         data.alert(`Error: ${error}`);
       });
   };
+
+  const noteUpdate = (e) => {
+    e.preventDefault();
+    const newManga = { ...manga, notes: notes.value };
+    axios.put(baseUrl, newManga, config)
+      .then((res) => {
+        setManga(res.data);
+        notes.onSubmit();
+        setNotevis(!notevis);
+      })
+      .catch((error) => {
+        data.alert(`Error: ${error}`);
+      });
+  }
 
   return (
       <tr style={style}>
@@ -109,7 +130,25 @@ const TableSingle = (data) => {
           </>
           }
         </td>
-        <td>Notes</td>
+        <td>
+          {!notevis
+          ? <>
+          <p>{manga.notes}<button onClick={noteVisibility}>Update</button></p>
+          </>
+            : <>
+            <form onSubmit={noteUpdate}>
+              <input
+                type={notes.type}
+                onChange={notes.onChange}
+                onSubmit={notes.onSubmit}
+                defaultValue={manga.notes}
+              /> 
+              <button type='submit'>Update</button>
+              <button onClick={noteVisibility}>Cancel</button>
+            </form>
+            </>
+          }
+        </td>
         <td>
           <select onChange={handleFilterChange}>
             {<option value={manga.status}>{manga.status}</option>}
