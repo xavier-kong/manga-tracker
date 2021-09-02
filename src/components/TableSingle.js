@@ -142,7 +142,7 @@ const TableSingle = (data) => {
                 onChange={notes.onChange}
                 onSubmit={notes.onSubmit}
                 defaultValue={manga.notes}
-              /> 
+              />
               <button type='submit'>Update</button>
               <button onClick={noteVisibility}>Cancel</button>
             </form>
