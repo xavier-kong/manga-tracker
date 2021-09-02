@@ -86,6 +86,7 @@ const TableSingle = (data) => {
         setManga(res.data);
         link.onSubmit();
         setVisible(!visible);
+        data.alert(`Changed link for ${manga.title}`)
       })
       .catch((error) => {
         data.alert(`Error: ${error}`);
@@ -100,6 +101,7 @@ const TableSingle = (data) => {
         setManga(res.data);
         notes.onSubmit();
         setNotevis(!notevis);
+        data.alert(`Updated notes for ${manga.title}`)
       })
       .catch((error) => {
         data.alert(`Error: ${error}`);
