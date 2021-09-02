@@ -3,6 +3,7 @@ import axios from 'axios';
 import useField from '../hooks/useField';
 import configGen from '../services/configGen';
 import dateHandler from '../services/dateHandler';
+import { Button } from 'react-bootstrap';
 
 const style = {
   textAlign: 'center',
@@ -113,21 +114,21 @@ const TableSingle = (data) => {
         <td>{manga.title || 'none'}</td>
         <td>{dateHandler(manga.lastRead)}</td>
         <td>
-          <button onClick={buttonHandler}>{'<'}</button>
+          <Button onClick={buttonHandler}>{'<'}</Button>
           &nbsp;{manga.chapter}&nbsp;
-          <button onClick={buttonHandler}>{'>'}</button>
+          <Button onClick={buttonHandler}>{'>'}</Button>
         </td>
         <td>
           {!visible
             ? <>
            <a href={String(manga.link)}>Go</a>
-           <button onClick={visibility}>Update</button>
+           <Button onClick={visibility}>Update</Button>
           </>
             : <>
             <form onSubmit={handleSubmit}>
               link: <input {...link} />
-              <button type='submit'>Update</button>
-              <button onClick={visibility}>Cancel</button>
+              <Button type='submit'>Update</Button>
+              <Button onClick={visibility}>Cancel</Button>
             </form>
           </>
           }
@@ -135,7 +136,7 @@ const TableSingle = (data) => {
         <td>
           {!notevis
           ? <>
-          <p>{manga.notes}<button onClick={noteVisibility}>Update</button></p>
+          <p>{manga.notes}<Button onClick={noteVisibility}>Update</Button></p>
           </>
             : <>
             <form onSubmit={noteUpdate}>
@@ -145,8 +146,8 @@ const TableSingle = (data) => {
                 onSubmit={notes.onSubmit}
                 defaultValue={manga.notes}
               />
-              <button type='submit'>Update</button>
-              <button onClick={noteVisibility}>Cancel</button>
+              <Button type='submit'>Update</Button>
+              <Button onClick={noteVisibility}>Cancel</Button>
             </form>
             </>
           }

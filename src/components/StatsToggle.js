@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 
-const StatsToggle = ({ data }) => {
-  const [visible, setVisible] = useState(false);
+const StatsToggle = ({ data, vis }) => {
 
   const read = data.reduce((a, b) => a + b.chapter, 0);
   const titles = data.length;
@@ -10,9 +9,9 @@ const StatsToggle = ({ data }) => {
 
   return (
     <div>
-      <button onClick={() => setVisible(!visible)}>{visible ? 'Hide Stats' : 'Show Stats'}</button>
-      {visible
-        ? <div>
+      {vis
+        ? 
+      <div>
         <p>Chapters read: {read}</p>
         <p>Mangas in collection: {titles}</p>
         <p>Mangas finished: {finished}</p>

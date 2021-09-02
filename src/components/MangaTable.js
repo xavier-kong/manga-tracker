@@ -7,6 +7,7 @@ import StatsToggle from './StatsToggle';
 import SortSelect from './SortSelect';
 import configGen from '../services/configGen'
 import sortingHandler from '../services/sortingHandler'
+import { Table, Button } from 'react-bootstrap';
 
 let denotifyTimeout = 0;
 
@@ -15,6 +16,7 @@ const MangaTable = () => {
   const [filter, setFilter] = useState('reading');
   const [message, setMessage] = useState('');
   const [sorter, setSorter] = useState('timedes')
+  const [statvis, setStatvis] = useState(false)
   const config = configGen()
 
   useEffect(() => {
@@ -49,7 +51,7 @@ const MangaTable = () => {
         <button onClick={() => (setFilter(''))}>All</button>
         &nbsp; currently viewing: &nbsp; {filter || 'All'}
       </div>
-      <table width='80%'>
+      <Table>
         <tbody>
         <tr>
           <th><h3>Title</h3></th>
@@ -69,12 +71,14 @@ const MangaTable = () => {
             />)
           }
         </tbody>
-      </table>
+      </Table>
     </div>
     <div>
-      <br />
       <AddMangaForm add={onAdd}/><Notifications message={message} />
-      <StatsToggle data={data} />
+      <Button onClick={() => setStatvis(!statvis)}>
+        {statvis ? 'Hide Stats' : 'Show Stats'}
+      </Button>
+      <StatsToggle data={data} vis={statvis}/>
       <SortSelect setSorter={setSorter} sorter={sorter} />
     </div>
     </>

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Form, Button } from 'react-bootstrap';
 import useField from '../hooks/useField';
 
 const AddMangaForm = ({ add }) => {
@@ -12,11 +13,11 @@ const AddMangaForm = ({ add }) => {
       setVisible(!visible);
     };
     return (
-      <button
-        onClick={showHandler}
-        style={{ height: '25px', width: '90px' }}>
+      <Button
+        onClick={showHandler}>
+        {/* style={{ height: '25px', width: '90px' }}> */}
           {visible ? 'Close' : 'Add Manga'}
-      </button>
+      </Button>
     );
   };
 
@@ -36,14 +37,16 @@ const AddMangaForm = ({ add }) => {
       <ShowButton />
       {!visible
         ? null
-        : <form onSubmit={handleSubmit}>
-        title:
-        <input {...title} />
-        <br />
-        link:
-        <input {...link} />
-        <button type='submit'>Add</button>
-      </form>
+        : 
+      <Form onSubmit={handleSubmit}>
+        <Form.Group>
+          <Form.Label>title:</Form.Label>
+          <Form.Control {...title} /><br />
+          <Form.Label>link:</Form.Label>
+          <Form.Control {...link} /><br />
+          <Button type='submit'>Add</Button>
+        </Form.Group>
+      </Form>
       }
     </div>
   );

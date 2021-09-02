@@ -1,5 +1,6 @@
 import React from 'react';
 import useField from '../hooks/useField';
+import { Form, Button } from 'react-bootstrap'
 
 const axios = require('axios');
 
@@ -24,17 +25,17 @@ const Login = ({ onLogin }) => {
   };
 
   return (
-    <div>
-      <h1>Login</h1>
-      <form onSubmit={handleSubmit}>
-        username:
-        <input {...username} />
-        <br />
-        password:
-        <input {...password} />
-        <br />
-        <button type='submit'>Login</button>
-      </form>
+    <div className='container'>
+      <h2>Login</h2>
+      <Form onSubmit={handleSubmit}>
+        <Form.Group>
+          <Form.Label>Username</Form.Label>
+          <Form.Control {...username} /><br />
+          <Form.Label>Password</Form.Label>
+          <Form.Control {...password} /><br />
+          <Button type='submit'>Login</Button>
+        </Form.Group>               
+      </Form>
     </div>
   );
 };

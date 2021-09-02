@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import MangaTable from './components/MangaTable';
 import Login from './components/Login';
+import { Button } from 'react-bootstrap'
 
 const App = () => {
   const [user, setUser] = useState('loading...');
@@ -45,9 +46,10 @@ const App = () => {
   return (
   <>
     {!user ? <Login onLogin={login}/> : user === 'loading...' ? <p>{user}</p>
-      : <div>
+      : 
+    <div className="container">
       <h1>Manga Tracker</h1>
-      <p>Logged in as 'user name' <button onClick={() => (logout())}>logout</button></p>
+      <p>Logged in as 'user name' <Button onClick={() => (logout())}>logout</Button></p>
       <MangaTable />
     </div>
     }
