@@ -11,6 +11,10 @@ import { Table, Button } from 'react-bootstrap';
 
 let denotifyTimeout = 0;
 
+const style = {
+  textAlign: 'center',
+};
+
 const MangaTable = () => {
   const [data, setData] = useState([]);
   const [filter, setFilter] = useState('reading');
@@ -53,7 +57,7 @@ const MangaTable = () => {
       </div>
       <Table>
         <tbody>
-        <tr>
+        <tr style={style}>
           <th><h3>Title</h3></th>
           <th><h3>Last Read</h3></th>
           <th><h3>Current</h3></th>

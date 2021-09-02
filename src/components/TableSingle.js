@@ -161,8 +161,6 @@ const TableSingle = (data) => {
             {manga.status === 'on hold' ? null : <option value={'on hold'}>on hold</option>}
           </select>
         </td>
-        <td>
-        </td>
       </tr>
   );
 };
