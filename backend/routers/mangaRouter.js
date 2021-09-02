@@ -42,6 +42,9 @@ mangaRouter.put('/', async (req, res) => {
   if (req.body.link) {
     user.mangas[mangaIndex].link = req.body.link;
   }
+  if (req.body.notes) {
+    user.mangas[mangaIndex].notes = req.body.notes;
+  }
   await user.save();
   const updatedUser = await User.findById(req.user._id);
   res.json(updatedUser.mangas[mangaIndex]);
