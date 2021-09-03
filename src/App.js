@@ -14,7 +14,7 @@ const App = () => {
       headers: { Authorization: `bearer ${(JSON.parse(userJSON)).token}` },
     };
       axios
-      .get('http://localhost:3001/api/users/verify', config)
+      .get('/api/users/verify', config)
       .then((res) => {
         if (res.data === 'valid') {
           setUser(JSON.parse(userJSON));

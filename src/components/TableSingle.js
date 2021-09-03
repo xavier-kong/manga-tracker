@@ -15,7 +15,7 @@ const TableSingle = (data) => {
   const [notevis, setNotevis] = useState(false);
   const link = useField('text');
   const notes = useField('text');
-  const baseUrl = 'http://localhost:3001/api/manga';
+  const baseUrl = '/api/manga';
 
   useEffect(() => {
     if (!manga) {

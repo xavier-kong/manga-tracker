@@ -25,7 +25,7 @@ const MangaTable = () => {
 
   useEffect(() => {
     const config = configGen()
-    axios.get('http://localhost:3001/api/manga', config).then((res) => {
+    axios.get('/api/manga', config).then((res) => {
       setData(res.data);
     });
   }, [filter, message]);
@@ -37,7 +37,7 @@ const MangaTable = () => {
   };
 
   const onAdd = (manga) => {
-    axios.post('http://localhost:3001/api/manga', manga, config)
+    axios.post('/api/manga', manga, config)
       .then((res) => {
         setData(res.data);
         notificationHandler(`Added new manga ${manga.title}`, setMessage);
