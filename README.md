@@ -12,3 +12,6 @@ I was using a spreadsheet as my tracker solution at first but a few problems bec
 * Hard to add to / modify future reading list
 
 To solve the above problems, I decided to create my own tracker.
+
+It is now deployed at:
+https://mangatracker4u.herokuapp.com/
