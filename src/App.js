@@ -48,7 +48,7 @@ const App = () => {
     {!user ? <Login onLogin={login}/> : user === 'loading...' ? <p>{user}</p>
       : 
     <div className="container">
-      <h1>Manga Tracker</h1>
+      <h1>Banga Tracker</h1>
       <p>Logged in as 'user name' <Button onClick={() => (logout())}>logout</Button></p>
       <MangaTable />
     </div>
