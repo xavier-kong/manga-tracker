@@ -36,6 +36,9 @@ const Login = ({ onLogin }) => {
           <Button type='submit'>Login</Button>
         </Form.Group>               
       </Form>
+      <p>For demo please use the login credentials below:</p>
+      <p>Username: username1</p>
+      <p>Password: password1</p>
     </div>
   );
 };
