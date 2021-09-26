@@ -49,7 +49,7 @@ const App = () => {
       : 
     <div className="container">
       <h1>Manga Tracker</h1>
-      <p>Logged in as 'user name' <Button onClick={() => (logout())}>logout</Button></p>
+      <p>Logged in as {user.username} <Button onClick={() => (logout())}>logout</Button></p>
       <MangaTable />
     </div>
     }
